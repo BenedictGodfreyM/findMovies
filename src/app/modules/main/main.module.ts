@@ -20,6 +20,7 @@ import { MaterialModule } from '../shared/material.module';
 import { ImgService, MovieService, NavigationService, OmdbService, SearchService, SeriesService, TorrentService, TuhinpalService, UiService } from 'src/app/services';
 import { ReactiveFormsModule } from '@angular/forms';
 import { OnTheAirComponent } from './pages/tv-shows/on-the-air/on-the-air.component';
+import { AiringTodayComponent } from './pages/tv-shows/airing-today/airing-today.component';
 
 
 @NgModule({
@@ -50,6 +51,7 @@ import { OnTheAirComponent } from './pages/tv-shows/on-the-air/on-the-air.compon
     TvShowsComponent,
     UpcomingMoviesComponent,
     OnTheAirComponent,
+    AiringTodayComponent,
   ],
   imports: [
     CommonModule,

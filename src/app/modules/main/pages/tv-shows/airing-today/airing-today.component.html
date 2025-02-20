@@ -1,0 +1,22 @@
+<section class="movies-heading" *ngIf="foundTVShows()">
+    <h2>Airing Today</h2>
+  </section>
+  <section id="movies-list" *ngIf="foundTVShows()">
+    <div *ngFor="let item of tvshows.results; index as i; trackBy: trackByFn" class="movies-box" (click)="openTVShowDetails(item)">
+      <div class="movies-img">
+        <div class="quality">{{ item.first_air_date | formatDate: 'Year' }}</div>
+        <img [lazyLoad]="image.generateURL(item.poster_path)" [errorImage]="image.errorImage" [decode]="true">
+      </div>
+      <a style="cursor: pointer;text-align: center;">{{ item.name }}</a>
+    </div>
+  </section>
+  <div class="btns" *ngIf="foundTVShows()">
+    <a (click)="goToPreviousPage()" *ngIf="tvshows.page > 1" title="Previous Page">
+      <i class="fas fa-angle-left"></i>
+    </a>
+    <span class="page">{{ tvshows.page }}/{{ tvshows.total_pages }}</span>
+    <a (click)="goToNextPage()" *ngIf="tvshows.page < tvshows.total_pages" title="Next Page">
+      <i class="fas fa-angle-right"></i>
+    </a>
+  </div>
+  
