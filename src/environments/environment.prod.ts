@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
-  version: '1.2.13',
-  copyright: '2021-24',
+  version: '1.2.14',
+  copyright: '2021-25',
   github: 'https://github.com/benedictgodfreym',
   api: {
     tmdb: {
