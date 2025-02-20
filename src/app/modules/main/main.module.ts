@@ -6,7 +6,7 @@ import { MainRoutingModule } from './main-routing.module';
 import { MainComponent } from './main.component';
 import { AboutComponent } from './pages/about/about.component';
 import { AllMoviesComponent, TopRatedMoviesComponent, UpcomingMoviesComponent } from './pages/movies';
-import { AllTvShowsComponent, TopRatedTvShowsComponent } from './pages/tv-shows';
+import { AiringTodayComponent, AllTvShowsComponent, OnTheAirComponent, TopRatedTvShowsComponent } from './pages/tv-shows';
 import { DurationPipe, FormatCountriesPipe, FormatDatePipe, FormatGenrePipe, FormatLanguagesPipe, SafePipe, StringfyArrayPipe } from 'src/app/pipes';
 import { HomeComponent, MoviesComponent, TvShowsComponent } from './pages';
 import { FooterComponent, NavbarComponent } from './layout';
@@ -19,13 +19,12 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { MaterialModule } from '../shared/material.module';
 import { ImgService, MovieService, NavigationService, OmdbService, SearchService, SeriesService, TorrentService, TuhinpalService, UiService } from 'src/app/services';
 import { ReactiveFormsModule } from '@angular/forms';
-import { OnTheAirComponent } from './pages/tv-shows/on-the-air/on-the-air.component';
-import { AiringTodayComponent } from './pages/tv-shows/airing-today/airing-today.component';
 
 
 @NgModule({
   declarations: [
     AboutComponent,
+    AiringTodayComponent,
     AllMoviesComponent,
     AllTvShowsComponent,
     DownloadComponent,
@@ -42,6 +41,7 @@ import { AiringTodayComponent } from './pages/tv-shows/airing-today/airing-today
     MoviesComponent,
     MovieDetailsComponent,
     NavbarComponent,
+    OnTheAirComponent,
     SafePipe,
     SeriesDetailsComponent,
     StringfyArrayPipe,
@@ -50,8 +50,6 @@ import { AiringTodayComponent } from './pages/tv-shows/airing-today/airing-today
     TorrentsComponent,
     TvShowsComponent,
     UpcomingMoviesComponent,
-    OnTheAirComponent,
-    AiringTodayComponent,
   ],
   imports: [
     CommonModule,
