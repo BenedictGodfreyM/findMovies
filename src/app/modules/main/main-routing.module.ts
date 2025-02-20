@@ -4,7 +4,7 @@ import { PageTitleService } from 'src/app/services';
 import { MainComponent } from './main.component';
 import { AboutComponent, HomeComponent, MoviesComponent, TvShowsComponent } from './pages';
 import { AllMoviesComponent, TopRatedMoviesComponent, UpcomingMoviesComponent } from './pages/movies';
-import { AllTvShowsComponent, TopRatedTvShowsComponent } from './pages/tv-shows';
+import { AiringTodayComponent, AllTvShowsComponent, OnTheAirComponent, TopRatedTvShowsComponent } from './pages/tv-shows';
 
 const routes: Routes = [
   {
@@ -42,6 +42,16 @@ const routes: Routes = [
         path: 'tv-shows',
         component: TvShowsComponent,
         children: [
+          {
+            path: 'airing-today',
+            component: AiringTodayComponent,
+            title: 'TV Shows Airing Today'
+          },
+          {
+            path: 'on-the-air',
+            component: OnTheAirComponent,
+            title: 'On The Air TV Shows'
+          },
           {
             path: 'top-rated',
             component: TopRatedTvShowsComponent,
