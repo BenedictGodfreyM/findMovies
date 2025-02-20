@@ -72,7 +72,7 @@
   <hr/>
 
   <h3 style="letter-spacing: 0.2rem;font-weight: bold;">Seasons:</h3>
-  <mat-accordion multi="true">
+  <mat-accordion multi="false">
     <mat-expansion-panel *ngFor="let season of tvshow_details.seasons; index as i; trackBy: trackByFn" (opened)="getTVSeasonDetails(tvshow_details.id, season.season_number)">
       <mat-expansion-panel-header>
         <mat-panel-title>Season&nbsp;{{ season.season_number }}</mat-panel-title>
