@@ -21,6 +21,11 @@ export class SeriesService {
     return this.http.get<TVShows>(`${environment.api.tmdb.url}/tv/top_rated`, { params: params });
   }
 
+  public on_the_air(page: string = "1"): Observable<TVShows>{
+    let params = new HttpParams().set("api_key", environment.api.tmdb.key).set("language", "en-US").set("page", page);
+    return this.http.get<TVShows>(`${environment.api.tmdb.url}/tv/on_the_air`, { params: params });
+  }
+
   public details(tvshow_id: number): Observable<SeriesDetails>{
     let params = new HttpParams().set("api_key", environment.api.tmdb.key).set("language", "en-US");
     return this.http.get<SeriesDetails>(`${environment.api.tmdb.url}/tv/${tvshow_id}`, { params: params });
