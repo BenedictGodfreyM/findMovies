@@ -19,6 +19,7 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { MaterialModule } from '../shared/material.module';
 import { ImgService, MovieService, NavigationService, OmdbService, SearchService, SeriesService, TorrentService, TuhinpalService, UiService } from 'src/app/services';
 import { ReactiveFormsModule } from '@angular/forms';
+import { OnTheAirComponent } from './pages/tv-shows/on-the-air/on-the-air.component';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     TorrentsComponent,
     TvShowsComponent,
     UpcomingMoviesComponent,
+    OnTheAirComponent,
   ],
   imports: [
     CommonModule,
