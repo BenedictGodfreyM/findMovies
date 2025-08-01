@@ -1,59 +1,26 @@
-# FindMovies
+```
+             ________                           ___   ___     _______
+            /  _____/ ___                      /  /  /   \   /      /                            ___   
+         __/  /____  /__/                     /  /  /     \_/      /  ___________   ___   ___   /__/  ___________
+        /_   _____/ ___  __________   _______/  /  /   /\   /|    /  /  _____   /  /  /  /  /  ___   /  _____   /
+         /  /      /  / /  ____   /  /  ____   /  /   /  \_/ |   /  /  /    /  /  /  /  /  /  /  /  /  ________/
+        /  /      /  / /  /   /  /  /  /___/  /  /   /      /   /  /  /____/  /  /  /__/  /  /  /  /  /_______
+       /__/      /__/ /__/   /__/  /_________/  /___/      /___/  /__________/  /________/  /__/  /__________/
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.2.
-
-## Development server
-
-To start a local development server, run:
-
-```bash
-ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+# Introduction
 
-## Code scaffolding
+This site simplifies the hustle of navigating through torrent sites in the internet to find good quality torrents for your media choice. Here you can find any movie that is already in the [IMDB (International Movie Database)](https://www.imdb.com/) and obtain its torrent links directly with a push of a button. The torrent links provided here are obtained using an algorithm that filters the best torrents from multiple torrent clients. This site is made and maintained out of love for movies and tv shows that give us the best entertainment thereis.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Specifications
 
-```bash
-ng generate component component-name
-```
+  * Angular CLI: `v20.1.1`
+  * Typescript: `v5.8.2`
+  * RxJS: `v7.8.0`
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Acknowledgements
+ - [Angular Framework (v20.1.1)](https://angular.dev/)
+ - [OMDB (The Open Movie Database)](https://www.omdbapi.com)
+ - [TMDB (The Movie Database)](https://www.themoviedb.org)
+ - [Torrent API by Neeraj Kumar](https://github.com/Ryuk-me/Torrent-Api-py)

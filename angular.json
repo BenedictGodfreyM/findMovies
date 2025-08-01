@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "findMovies": {
+    "2.x.x": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -26,12 +26,7 @@
             ],
             "styles": [
               "src/styles.css"
-            ],
-            "server": "src/main.server.ts",
-            "outputMode": "server",
-            "ssr": {
-              "entry": "src/server.ts"
-            }
+            ]
           },
           "configurations": {
             "production": {
@@ -61,10 +56,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "findMovies:build:production"
+              "buildTarget": "2.x.x:build:production"
             },
             "development": {
-              "buildTarget": "findMovies:build:development"
+              "buildTarget": "2.x.x:build:development"
             }
           },
           "defaultConfiguration": "development"
