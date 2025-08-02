@@ -2,7 +2,12 @@ export const environment = {
   production: false,
   version: '2.0.0',
   copyright: '2021-25',
-  github: 'https://github.com/benedictgodfreym',
+  socials: {
+    github: 'https://github.com/BenedictGodfreyM',
+    twitter: 'https://x.com/mashinjigodfrey',
+    linkedin: 'https://www.linkedin.com/in/benedicto-godfrey-m',
+  },
+  github: 'https://github.com/BenedictGodfreyM/findMovies',
   api: {
     tmdb: {
       url: `https://api.themoviedb.org/3`,
