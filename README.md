@@ -20,6 +20,7 @@ This site simplifies the hustle of navigating through torrent sites in the inter
   * RxJS: `v7.8.0`
 
 ## Acknowledgements
+ - [FlixGo Template by Dmitry Volkov]()
  - [Angular Framework (v20.1.1)](https://angular.dev/)
  - [OMDB (The Open Movie Database)](https://www.omdbapi.com)
  - [TMDB (The Movie Database)](https://www.themoviedb.org)
