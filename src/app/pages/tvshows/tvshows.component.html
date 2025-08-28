@@ -1,0 +1,50 @@
+<!-- page title -->
+<section class="section section--first">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section__wrap">
+                    <!-- section title -->
+                    <h2 class="section__title">TV Shows</h2>
+                    <!-- end section title -->
+
+                    <!-- breadcrumb -->
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb__item"><a routerLink="/">Home</a></li>
+                        <li class="breadcrumb__item breadcrumb__item--active">TV Shows</li>
+                    </ul>
+                    <!-- end breadcrumb -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end page title -->
+
+<!-- catalog -->
+<div class="catalog">
+    <div class="container">
+        <div class="row" style="margin-top: 8px;">
+            @for(item of tv_shows.results; track item.id ){
+            <div class="col-6 col-sm-4 col-lg-3 col-xl-2" style="margin-bottom: 8px;">
+                <media-card [media]="item" [isCarouselCard]="false"></media-card>
+            </div>
+            } @empty {
+            <div class="col-12">
+                <div class="card">
+                    <div class="card__content">
+                        <h3 class="card__title">No Media</h3>
+                    </div>
+                </div>
+            </div>
+            }
+
+            <!-- paginator -->
+            @if(tv_shows.results){
+            <app-pagination [config]="pagination()" (pageChange)="getPopularTVShows($event)" [loading]="UILoader.loading()"></app-pagination>
+            }
+            <!-- end paginator -->
+        </div>
+    </div>
+</div>
+<!-- end catalogue -->

@@ -1,0 +1,194 @@
+<!-- details -->
+<section class="section details">
+    <!-- details background -->
+    <div class="details__bg" data-bg="img/home/home__bg.jpg"></div>
+    <!-- end details background -->
+
+    <!-- details content -->
+    <div class="container">
+        <div class="row">
+            <!-- title -->
+            <div class="col-12">
+                <h1 class="details__title">{{ movie_details().title }}</h1>
+            </div>
+            <!-- end title -->
+
+            <!-- content -->
+            <div class="col-12 col-xl-6">
+                <div class="card card--details">
+                    <div class="row">
+                        <!-- card cover -->
+                        <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-5">
+                            <div class="card__cover">
+                                <img [lazyLoad]="IMGLoader.generateURL(movie_details().poster_path)" [errorImage]="IMGLoader.errorImage" [decode]="true">
+                            </div>
+                        </div>
+                        <!-- end card cover -->
+
+                        <!-- card content -->
+                        <div class="col-12 col-sm-8 col-md-8 col-lg-9 col-xl-7">
+                            <div class="card__content">
+                                <div class="card__wrap">
+                                    <span class="card__rate"><i class="icon ion-ios-star"></i>{{ movie_details().vote_average }}</span>
+
+                                    <ul class="card__list">
+                                        <li *ngIf="loadingOMDBDetails"><app-skeleton-loader class="circle" width="35px" height="15px"></app-skeleton-loader></li>
+                                        <li *ngIf="!loadingOMDBDetails">IMDB: {{ OMDB_details.imdbRating }}</li>
+                                        <li>{{ movie_details().status }}</li>
+                                        <li *ngIf="loadingOMDBDetails"><app-skeleton-loader class="circle" width="35px" height="15px"></app-skeleton-loader></li>
+                                        <li *ngIf="!loadingOMDBDetails">{{ OMDB_details.Rated }}</li>
+                                    </ul>
+                                </div>
+
+                                <ul class="card__meta">
+                                    <li>
+                                        <span>Genre:</span> 
+                                        @for(item of movie_details().genres; track item.id ){
+                                        <a href="#">{{ item.name }}</a>
+                                        }
+                                    </li>
+                                    <li><span>Release date:</span> {{ movie_details().release_date | formatDate: 'Full' }}</li>
+                                    <li><span>Running time:</span> {{ movie_details().runtime | duration }}</li>
+                                    <li><span>Language:</span> {{ movie_details().spoken_languages | formatLanguages }}</li>
+                                    <li><span>Country:</span> <a href="#">{{ movie_details().production_countries | formatCountries }}</a> </li>
+                                </ul>
+
+                                <ul class="card__meta">
+                                    <li *ngIf="loadingOMDBDetails"><app-skeleton-loader class="circle" width="35px" height="30px"></app-skeleton-loader></li>
+                                    <li *ngIf="!loadingOMDBDetails"><span>Starring:</span> {{ OMDB_details.Actors }}</li>
+                                    <li *ngIf="!loadingOMDBDetails"><span>Director:</span> {{ OMDB_details.Director }}</li>
+                                    <li *ngIf="!loadingOMDBDetails"><span>Writers:</span> {{ OMDB_details.Writer }}</li>
+                                </ul>
+
+                                <div class="card__description card__description--details">
+                                    {{ movie_details().overview }}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end card content -->
+                    </div>
+                </div>
+            </div>
+            <!-- end content -->
+
+            <!-- player -->
+            <div class="col-12 col-xl-6">
+                <app-video-player [tmdb_id]="movie_details().id"></app-video-player>
+            </div>
+            <!-- end player -->
+        </div>
+    </div>
+    <!-- end details content -->
+</section>
+<!-- end details -->
+
+<!-- content -->
+<section class="content">
+    <div class="content__head">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- content title -->
+                    <h2 class="content__title">Discover</h2>
+                    <!-- end content title -->
+
+                    <!-- content tabs nav -->
+                    <ul class="nav nav-tabs content__tabs" id="content__tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Photos</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Reviews</a>
+                        </li>
+                    </ul>
+                    <!-- end content tabs nav -->
+
+                    <!-- content mobile tabs nav -->
+                    <div class="content__mobile-tabs" id="content__mobile-tabs">
+                        <div class="content__mobile-tabs-btn dropdown-toggle" role="navigation" id="mobile-tabs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <input type="button" value="Photos">
+                            <span></span>
+                        </div>
+
+                        <div class="content__mobile-tabs-menu dropdown-menu" aria-labelledby="mobile-tabs">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item"><a class="nav-link active" id="1-tab" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Photos</a></li>
+
+                                <li class="nav-item"><a class="nav-link" id="2-tab" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Reviews</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- end content mobile tabs nav -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-8 col-xl-8">
+                <!-- content tabs -->
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
+                        <app-photos [tmdb_id]="movie_details().id" [media_type]="'movie'"></app-photos>
+                    </div>
+                    <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
+                        <div class="row">
+                            <!-- reviews -->
+                            <div class="col-12">
+                                <app-reviews [tmdb_id]="movie_details().id" [media_type]="'movie'"></app-reviews>    
+                            </div>
+                            <!-- end reviews -->
+                        </div>
+                    </div>
+                </div>
+                <!-- end content tabs -->
+            </div>
+
+            <!-- sidebar -->
+            <div class="col-12 col-lg-4 col-xl-4">
+                <div class="row" *ngIf="loadingSimilarMovies">
+                    <!-- section title -->
+                    <div class="col-12">
+                        <h2 class="section__title section__title--sidebar">
+                            <app-skeleton-loader class="circle" width="100px" height="20px"></app-skeleton-loader>
+                        </h2>
+                    </div>
+                    <!-- end section title -->
+
+                    <!-- card -->
+                     @for(i of [].constructor(3); track i.id ){
+                    <div class="col-6 col-sm-4 col-lg-6">
+                        <app-skeleton-loader class="circle" width="40px" height="100px"></app-skeleton-loader>
+                    </div>
+                    }
+                </div>
+                <div class="row" *ngIf="!loadingSimilarMovies">
+                    <!-- section title -->
+                    <div class="col-12">
+                        <h2 class="section__title section__title--sidebar">You may also like...</h2>
+                    </div>
+                    <!-- end section title -->
+
+                    <!-- card -->
+                    @for(item of similar_movies.results; track item.id ){
+                    <div class="col-6 col-sm-4 col-lg-6">
+                        <media-card [media]="item" [isCarouselCard]="false"></media-card>
+                    </div>
+                    }@empty {
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card__content">
+                                <h3 class="card__title">No Media</h3>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+            <!-- end sidebar -->
+        </div>
+    </div>
+</section>
+<!-- end content -->

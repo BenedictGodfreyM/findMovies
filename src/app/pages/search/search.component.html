@@ -1,0 +1,62 @@
+<!-- page title -->
+<section class="section section--first">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section__wrap">
+                    <!-- section title -->
+                    <h2 class="section__title">Search</h2>
+                    <!-- end section title -->
+
+                    <!-- breadcrumb -->
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb__item"><a routerLink="/">Home</a></li>
+                        <li class="breadcrumb__item breadcrumb__item--active">Search</li>
+                    </ul>
+                    <!-- end breadcrumb -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end page title -->
+
+<!-- search input -->
+<div class="filter">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="filter__content" style="display: flex;flex-direction: column;justify-content: center;align-items: center;">
+                    <div class="filter__items" style="width: 100%;">
+                        <div class="filter__item" style="width: 100%;">
+                            <input #searchInput (focusin)="emptySearchedResults()" [formControl]="searchField" style="position: relative;height: 60px;width: 100%;background-color: #28282d;border: none;padding: 0 120px 0 15px;font-size: 15px;color: #fff;font-family: 'Open Sans', sans-serif;" type="text" placeholder="Search for a movie, TV Series you like" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- search input -->
+
+<!-- catalog -->
+<div class="catalog">
+    <div class="container">
+        <div class="row">
+            @for(item of items(); track item ){
+            <div class="col-6 col-sm-4 col-lg-3 col-xl-2" style="margin-bottom: 8px;">
+                <media-card [media]="item" [isCarouselCard]="false"></media-card>
+            </div>
+            } @empty {
+            <div class="col-12">
+                <div class="card" *ngIf="hasSearched()">
+                    <div class="card__content">
+                        <h3 class="card__title">No Media</h3>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- end catalogue -->
