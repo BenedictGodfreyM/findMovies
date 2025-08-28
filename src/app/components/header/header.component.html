@@ -1,0 +1,51 @@
+<div class="header__wrap">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="header__content">
+                    <!-- header logo -->
+                    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]={exact:true} class="header__logo">
+                        <img src="icon/fav-icon.png" alt="">
+                    </a>
+                    <!-- end header logo -->
+
+                    <!-- header nav -->
+                    <ul class="header__nav">
+                        <li class="header__nav-item">
+                            <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]={exact:true} class="header__nav-link">Home</a>
+                        </li>
+
+                        <li class="header__nav-item">
+                            <a routerLink="/movies" routerLinkActive="active" [routerLinkActiveOptions]={exact:true} class="header__nav-link">Movies</a>
+                        </li>
+
+                        <li class="header__nav-item">
+                            <a routerLink="/tv-shows" routerLinkActive="active" [routerLinkActiveOptions]={exact:true} class="header__nav-link">TV Shows</a>
+                        </li>
+
+                        <li class="header__nav-item">
+                            <a routerLink="/about-us" routerLinkActive="active" [routerLinkActiveOptions]={exact:true} class="header__nav-link">About Us</a>
+                        </li>
+                    </ul>
+                    <!-- end header nav -->
+
+                    <!-- header auth -->
+                    <div class="header__auth">
+                        <a routerLink="/search" class="header__search-btn">
+                            <i class="icon ion-ios-search"></i>
+                        </a>
+                    </div>
+                    <!-- end header auth -->
+
+                    <!-- header menu btn -->
+                    <button class="header__btn" type="button">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <!-- end header menu btn -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

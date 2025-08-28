@@ -1,0 +1,55 @@
+<div class="container">
+    <div class="row">
+        <!-- footer list -->
+        <div class="col-12 col-md-3">
+            <h6 class="footer__title">Coming soon on...</h6>
+            <ul class="footer__app">
+                <li><a><img src="img/Download_on_the_App_Store_Badge.svg" alt="iOS"></a></li>
+                <li><a><img src="img/google-play-badge.png" alt="Android"></a></li>
+            </ul>
+        </div>
+        <!-- end footer list -->
+
+        <!-- footer list -->
+        <div class="col-6 col-sm-4 col-md-3">
+            <h6 class="footer__title">Resources</h6>
+            <ul class="footer__list">
+                <li><a routerLink="/movies" routerLinkActive="active" [routerLinkActiveOptions]={exact:true}>Movies</a></li>
+                <li><a routerLink="/tv-shows" routerLinkActive="active" [routerLinkActiveOptions]={exact:true}>TV Shows</a></li>
+                <li><a routerLink="/about-us" routerLinkActive="active" [routerLinkActiveOptions]={exact:true}>About Us</a></li>
+            </ul>
+        </div>
+        <!-- end footer list -->
+
+        <!-- footer list -->
+        <div class="col-6 col-sm-4 col-md-3">
+            <h6 class="footer__title">Related Sites</h6>
+            <ul class="footer__list">
+                <li><a href="https://www.imdb.com">IMDB</a></li>
+                <li><a href="https://www.rottentomatoes.com">Rotten Tomatoes</a></li>
+            </ul>
+        </div>
+        <!-- end footer list -->
+
+        <!-- footer list -->
+        <div class="col-12 col-sm-4 col-md-3">
+            <h6 class="footer__title">Socials</h6>
+            <ul class="footer__social">
+                <li class="github"><a href="{{ socials_github }}" target="_blank"><i class="icon ion-logo-github"></i></a></li>
+                <li class="linkedin"><a href="{{ socials_linkedin }}"><i class="icon ion-logo-linkedin"></i></a></li>
+                <li class="twitter"><a href="{{ socials_twitter }}"><i class="icon ion-logo-twitter"></i></a></li>
+            </ul>
+        </div>
+        <!-- end footer list -->
+
+        <!-- footer copyright -->
+        <div class="col-12">
+            <div class="footer__copyright">
+                <small style="width: 100%;text-align: center;">
+                    &copy; {{ copyright }} <a target="_blank" href="{{ github }}">ATS</a> (v{{ version }})
+                </small>
+            </div>
+        </div>
+        <!-- end footer copyright -->
+    </div>
+</div>

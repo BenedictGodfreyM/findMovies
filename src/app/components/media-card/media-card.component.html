@@ -1,0 +1,29 @@
+@if(loadingDetails){
+<div class="card__cover">
+    <app-skeleton-loader class="circle" width="50px" height="200px"></app-skeleton-loader>
+</div>
+<div class="card__content">
+    <h3 class="card__title">
+        <app-skeleton-loader class="circle" width="35px" height="15px"></app-skeleton-loader>
+    </h3>
+    <span class="card__rate">
+        <app-skeleton-loader class="circle" width="35px" height="15px"></app-skeleton-loader>
+    </span>
+</div>
+}@else{
+<div class="card__cover">
+    <img [lazyLoad]="IMGLoader.generateURL(media.poster_path)" [errorImage]="IMGLoader.errorImage" [decode]="true">
+</div>
+<div class="card__content">
+    <h3 class="card__title" *ngIf="isMovie(media)"><a [routerLink]="['/movies', media.id]">{{ media.title }}</a></h3>
+    <h3 class="card__title" *ngIf="isSeries(media)"><a [routerLink]="['/tv-shows', media.id]">{{ media.name }}</a></h3>
+    <h3 class="card__subtitle" *ngIf="isMovie(media)"><a href="#">{{ media.release_date | formatDate: 'Year' }}</a></h3>
+    <h3 class="card__subtitle" *ngIf="isSeries(media)"><a href="#">{{ media.first_air_date | formatDate: 'Year' }}</a></h3>
+    <span class="card__category">
+        @for(item of media_details.genres; track item.id ){
+        <a href="#">{{ item.name }}</a>
+        }
+    </span>
+    <span class="card__rate"><i class="icon ion-ios-star"></i>{{ media.vote_average }}</span>
+</div>
+}

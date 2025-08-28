@@ -1,0 +1,40 @@
+<ul class="reviews__list" *ngIf="loadingReviews">
+    @for(i of [].constructor(3); track i.id ){
+    <li class="reviews__item">
+        <div class="reviews__autor">
+            <span class="reviews__name">
+                <app-skeleton-loader class="circle" width="40px" height="20px"></app-skeleton-loader>
+            </span>
+            <span class="reviews__time">
+                <app-skeleton-loader class="circle" width="60px" height="20px"></app-skeleton-loader>
+            </span>
+
+            <span class="reviews__rating">
+                <i class="icon ion-ios-star"></i>
+                <app-skeleton-loader class="circle" width="30px" height="10px"></app-skeleton-loader>
+            </span>
+        </div>
+        <p class="reviews__text">
+            <app-skeleton-loader class="circle" width="500px" height="200px"></app-skeleton-loader>
+        </p>
+    </li>
+    }
+</ul>
+<ul class="reviews__list" *ngIf="!loadingReviews">
+    @for(item of reviews.results; track item.id ){
+    <li class="reviews__item">
+        <div class="reviews__autor">
+            <img class="reviews__avatar" [lazyLoad]="IMGLoader.generateURL(item.author_details.avatar_path)" [errorImage]="IMGLoader.errorImage" [decode]="true">
+            <span class="reviews__name">{{ item.author_details.name }} ({{ item.author_details.username }})</span>
+            <span class="reviews__time">{{ item.updated_at | date:'long' }}</span>
+
+            <span class="reviews__rating"><i class="icon ion-ios-star"></i>{{ item.author_details.rating }}</span>
+        </div>
+        <p class="reviews__text">{{ item.content }}</p>
+    </li>
+    }@empty {
+    <li class="reviews__item">
+        <p class="reviews__text">No reviews yet.</p>
+    </li>
+    }
+</ul>

@@ -1,0 +1,35 @@
+@if(config.totalPages > 1 && hasResults()){
+<ul class="paginator">
+    <li class="paginator__item paginator__item--prev">
+        <a href="#" (click)="goToFirst($event)">
+            <i class="icon ion-ios-arrow-back"></i><i class="icon ion-ios-arrow-back"></i>
+        </a>
+    </li>
+    <li class="paginator__item">
+        <a href="#" (click)="goToPrevious($event)">
+            <i class="icon ion-ios-arrow-back"></i>
+        </a>
+    </li>
+    @if(showPageNumbers){
+        @for (page of pages(); track page) {
+            <li class="paginator__item" [class.paginator__item--active]="page === config.currentPage">
+                <a href="#" (click)="goToPage($event, page)">{{ page }}</a>
+            </li>
+        }
+    }@else{
+        <li class="paginator__item paginator__item--active">
+            <a>{{ config.currentPage }}</a>
+        </li>
+    }
+    <li class="paginator__item">
+        <a href="#" (click)="goToNext($event)">
+            <i class="icon ion-ios-arrow-forward"></i>
+        </a>
+    </li>
+    <li class="paginator__item paginator__item--next">
+        <a href="#" (click)="goToLast($event)">
+            <i class="icon ion-ios-arrow-forward"></i><i class="icon ion-ios-arrow-forward"></i>
+        </a>
+    </li>
+</ul>
+}

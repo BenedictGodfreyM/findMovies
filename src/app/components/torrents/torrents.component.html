@@ -1,0 +1,25 @@
+<mat-list>
+  @for(torrent of torrents; let idx = $index; track idx){
+  <div mat-subheader>
+    <span style="font-weight: bolder;" [style.color]="torrent.enphasis">{{ torrent.release_format_type }}</span>
+  </div>
+  <mat-list-item matRipple *ngFor="let file of torrent.files;" (click)="copy(file)">
+    <h3 matLine>{{ file.name }}</h3>
+    <p matLine>
+      <span class="badge badge-o">
+        <i class="fas fa-hdd"> {{ calibrateMeasure(file.size) }}&nbsp;&nbsp;</i>
+      </span>
+      <span class="badge badge-bg">
+        <i class="fas fa-seedling"> {{ calibrateMeasure(file.seeders) }}&nbsp;&nbsp;</i>
+      </span>
+      <span class="badge badge-bg">
+        <i class="fas fa-download"> {{ calibrateMeasure(file.leechers) }}&nbsp;&nbsp;</i>
+      </span>
+      <span class="badge badge-o">
+        <i class="fas fa-desktop"> {{ determineResolution(file.name) }}</i>
+      </span>
+    </p>
+  </mat-list-item>
+  <mat-divider></mat-divider>
+  }
+</mat-list>

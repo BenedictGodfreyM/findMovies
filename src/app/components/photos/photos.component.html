@@ -1,0 +1,21 @@
+<div class="row" *ngIf="loadingImages">
+    @for(i of [].constructor(3); track i.id ){
+    <div class="col-12 col-sm-6 col-xl-4">
+        <app-skeleton-loader class="circle" width="40px" height="100px"></app-skeleton-loader>
+    </div>
+    }
+</div>
+<div class="row" *ngIf="!loadingImages">
+    <!-- gallery item -->
+     @for(item of images.posters; let idx = $index; track item ){
+    <figure class="col-12 col-sm-6 col-xl-4" itemprop="associatedMedia" itemscope>
+        <a href="{{ item.file_path }}" itemprop="contentUrl" data-size="1920x1280">
+            <img [lazyLoad]="IMGLoader.generateURL(item.file_path)" [errorImage]="IMGLoader.errorImage" [decode]="true" itemprop="thumbnail" alt="image {{ idx }}" />
+        </a>
+        <figcaption itemprop="caption description">image {{ idx }}</figcaption>
+    </figure>
+    }@empty {
+        <div class="col-12">No photos!.</div>
+    }
+    <!-- end gallery item -->
+</div>
