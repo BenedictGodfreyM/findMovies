@@ -7,10 +7,11 @@ import { FooterComponent, HeaderComponent } from './components';
 import { ClipboardService, IClipboardResponse, ClipboardModule } from 'ngx-clipboard';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule,RouterModule,HeaderComponent,FooterComponent,MatSnackBarModule,MatProgressBarModule,ClipboardModule],
+  imports: [CommonModule,RouterModule,OverlayModule,HeaderComponent,FooterComponent,MatSnackBarModule,MatProgressBarModule,ClipboardModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
