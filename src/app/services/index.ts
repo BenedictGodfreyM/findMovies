@@ -5,3 +5,4 @@ export * from './page-title.service';
 export * from './ui-loader.service';
 export * from './img-loader.service';
 export * from './torrent.service';
+export * from './http-cancel.service';
