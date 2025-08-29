@@ -19,16 +19,25 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
   public videoFound: boolean = false;
 
   @Input() tmdb_id!: number;
+  @Input() media_type!: 'movie'|'tv_show';
 
   constructor(private TMDBService: TmdbService){}
 
   ngOnInit(): void {
     this.loadingVideo = true;
-    this.TMDBService.movie_videos(this.tmdb_id)
-    .pipe(takeUntil(this._destroyed$),finalize(() => this.loadingVideo = false))
-    .subscribe({
-      next: (videos) => this.processMovieVideos(videos)
-    });
+    if(this.media_type === 'movie'){
+      this.TMDBService.movie_videos(this.tmdb_id)
+      .pipe(takeUntil(this._destroyed$),finalize(() => this.loadingVideo = false))
+      .subscribe({
+        next: (videos) => this.processMovieVideos(videos)
+      });
+    }else if(this.media_type === 'tv_show'){
+      this.TMDBService.tv_show_videos(this.tmdb_id)
+      .pipe(takeUntil(this._destroyed$),finalize(() => this.loadingVideo = false))
+      .subscribe({
+        next: (videos) => this.processMovieVideos(videos)
+      });
+    }
   }
   
   private processMovieVideos(videos: TMDBMovieVideos): void{
