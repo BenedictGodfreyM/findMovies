@@ -25,7 +25,7 @@
     <li class="reviews__item">
         <div class="reviews__autor">
             <img class="reviews__avatar" [lazyLoad]="IMGLoader.generateURL(item.author_details.avatar_path)" [errorImage]="IMGLoader.errorImage" [decode]="true">
-            <span class="reviews__name">{{ item.author_details.name }} ({{ item.author_details.username }})</span>
+            <span class="reviews__name">{{ item.author_details.username || item.author_details.name }}</span>
             <span class="reviews__time">{{ item.updated_at | date:'long' }}</span>
 
             <span class="reviews__rating"><i class="icon ion-ios-star"></i>{{ item.author_details.rating }}</span>
