@@ -1,4 +1,6 @@
-<mat-progress-bar mode="indeterminate" *ngIf="isNavigting"></mat-progress-bar>
+@if(isNavigting()){
+<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+}
 <header></header>
 <router-outlet></router-outlet>
 <footer></footer>
