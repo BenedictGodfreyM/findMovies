@@ -1,22 +1,14 @@
-import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { ActivationEnd, Router } from '@angular/router';
-import { takeUntil } from 'rxjs/operators';
+import { HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { takeUntil } from 'rxjs';
 import { HttpCancelService } from '../services';
+import { ActivationEnd, Router } from '@angular/router';
 
-@Injectable()
-export class HttpCancelInterceptor implements HttpInterceptor {
-
-  constructor(router: Router, private httpCancelService: HttpCancelService){
-    router.events.subscribe(event => {
-      if(event instanceof ActivationEnd){
-        this.httpCancelService.cancelPendingRequests();
-      }
-    });
-  }
-
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    return next.handle(request).pipe(takeUntil(this.httpCancelService.onCancelPendingRequests()));
-  }
-}
+export const httpCancelInterceptor: HttpInterceptorFn = (req, next) => {
+  const router = inject(Router);
+  const httpCancelService = inject(HttpCancelService);
+  router.events.subscribe(event => {
+    if(event instanceof ActivationEnd) httpCancelService.cancelPendingRequests();
+  });
+  return next(req).pipe(takeUntil(httpCancelService.onCancelPendingRequests()));
+};
