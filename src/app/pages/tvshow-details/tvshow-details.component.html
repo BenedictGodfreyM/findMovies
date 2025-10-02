@@ -9,7 +9,7 @@
         <div class="row">
             <!-- title -->
             <div class="col-12">
-                <h1 class="details__title">I Dream in Another Language</h1>
+                <h1 class="details__title">{{ tv_show_details().name }}</h1>
             </div>
             <!-- end title -->
 
@@ -20,7 +20,7 @@
                         <!-- card cover -->
                         <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-3">
                             <div class="card__cover">
-                                <img src="img/covers/cover.jpg" alt="">
+                                <img [lazyLoad]="IMGLoader.generateURL(tv_show_details().poster_path)" [errorImage]="IMGLoader.errorImage" [decode]="true">
                             </div>
                         </div>
                         <!-- end card cover -->
@@ -29,31 +29,44 @@
                         <div class="col-12 col-sm-8 col-md-8 col-lg-9 col-xl-9">
                             <div class="card__content">
                                 <div class="card__wrap">
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
+                                    <span class="card__rate"><i class="icon ion-ios-star"></i>{{ tv_show_details().vote_average }}</span>
 
                                     <ul class="card__list">
-                                        <li>IMDB: 6.8</li>
-                                        <li>Released</li>
-                                        <li>PG13</li>
+                                        <li *ngIf="loadingOMDBDetails"><app-skeleton-loader class="circle" width="35px" height="15px"></app-skeleton-loader></li>
+                                        <li *ngIf="!loadingOMDBDetails" [appRemoveIfEmptyString]="OMDB_details.imdbRating">IMDB: {{ OMDB_details.imdbRating }}</li>
+                                        <li>{{ tv_show_details().status }}</li>
+                                        <li *ngIf="loadingOMDBDetails"><app-skeleton-loader class="circle" width="35px" height="15px"></app-skeleton-loader></li>
+                                        <li *ngIf="!loadingOMDBDetails" [appRemoveIfEmptyString]="OMDB_details.Rated">{{ OMDB_details.Rated }}</li>
                                     </ul>
                                 </div>
 
                                 <ul class="card__meta">
-                                    <li><span>Genre:</span> <a href="#">Action</a>
-                                    <a href="#">Triler</a></li>
-                                    <li><span>Release date:</span> 2017</li>
-                                    <li><span>Running time:</span> 120 min</li>
-                                    <li><span>Language:</span> English</li>
-                                    <li><span>Country:</span> <a href="#">USA</a> </li>
+                                    <li>
+                                        <span>Genre:</span> 
+                                        @for(item of tv_show_details().genres; track item.id ){
+                                        <a href="#">{{ item.name }}</a>
+                                        }
+                                    </li>
+                                    <li><span>Running time:</span> {{ tv_show_details().episode_run_time | duration }}</li>
+                                    <li><span>Language:</span> {{ tv_show_details().spoken_languages | formatLanguages }}</li>
+                                    <li><span>Country:</span> {{ tv_show_details().production_countries | formatCountries }}</li>
                                 </ul>
 
                                 <ul class="card__meta">
-                                    <li><span>Starring:</span> Ana de Armas, Keanu Reeves</li>
-                                    <li><span>Director:</span> Len Wiseman</li>
+                                    <li *ngIf="loadingOMDBDetails"><app-skeleton-loader class="circle" width="35px" height="30px"></app-skeleton-loader></li>
+                                    <li *ngIf="!loadingOMDBDetails" [appRemoveIfEmptyString]="OMDB_details.Actors">
+                                        <span>Starring:</span> {{ OMDB_details.Actors }}
+                                    </li>
+                                    <li *ngIf="!loadingOMDBDetails" [appRemoveIfEmptyString]="OMDB_details.Director">
+                                        <span>Director:</span> {{ OMDB_details.Director }}
+                                    </li>
+                                    <li *ngIf="!loadingOMDBDetails" [appRemoveIfEmptyString]="OMDB_details.Writer">
+                                        <span>Writers:</span> {{ OMDB_details.Writer }}
+                                    </li>
                                 </ul>
 
                                 <div class="card__description card__description--details">
-                                    It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+                                    {{ tv_show_details().overview }}
                                 </div>
                             </div>
                         </div>
@@ -65,21 +78,7 @@
 
             <!-- player -->
             <div class="col-12 col-xl-6">
-                <video controls crossorigin playsinline poster="../../../cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg" id="player">
-                    <!-- Video files -->
-                    <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4" type="video/mp4" size="576">
-                    <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4" type="video/mp4" size="720">
-                    <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4" type="video/mp4" size="1080">
-                    <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1440p.mp4" type="video/mp4" size="1440">
-
-                    <!-- Caption files -->
-                    <track kind="captions" label="English" srclang="en" src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.en.vtt"
-                        default>
-                    <track kind="captions" label="Français" srclang="fr" src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.fr.vtt">
-
-                    <!-- Fallback for browsers that don't support the <video> element -->
-                    <a href="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4" download>Download</a>
-                </video>
+                <app-video-player [tmdb_id]="tv_show_details().id" [media_type]="'tv_show'"></app-video-player>
             </div>
             <!-- end player -->
 
@@ -367,117 +366,14 @@
                 <!-- content tabs -->
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
-                        <!-- project gallery -->
-                        <div class="gallery" itemscope>
-                            <div class="row">
-                                <!-- gallery item -->
-                                <figure class="col-12 col-sm-6 col-xl-4" itemprop="associatedMedia" itemscope>
-                                    <a href="img/gallery/project-1.jpg" itemprop="contentUrl" data-size="1920x1280">
-                                        <img src="img/gallery/project-1.jpg" itemprop="thumbnail" alt="Image description" />
-                                    </a>
-                                    <figcaption itemprop="caption description">Some image caption 1</figcaption>
-                                </figure>
-                                <!-- end gallery item -->
-
-                                <!-- gallery item -->
-                                <figure class="col-12 col-sm-6 col-xl-4" itemprop="associatedMedia" itemscope>
-                                    <a href="img/gallery/project-2.jpg" itemprop="contentUrl" data-size="1920x1280">
-                                        <img src="img/gallery/project-2.jpg" itemprop="thumbnail" alt="Image description" />
-                                    </a>
-                                    <figcaption itemprop="caption description">Some image caption 2</figcaption>
-                                </figure>
-                                <!-- end gallery item -->
-
-                                <!-- gallery item -->
-                                <figure class="col-12 col-sm-6 col-xl-4" itemprop="associatedMedia" itemscope>
-                                    <a href="img/gallery/project-3.jpg" itemprop="contentUrl" data-size="1920x1280">
-                                        <img src="img/gallery/project-3.jpg" itemprop="thumbnail" alt="Image description" />
-                                    </a>
-                                    <figcaption itemprop="caption description">Some image caption 3</figcaption>
-                                </figure>
-                                <!-- end gallery item -->
-
-                                <!-- gallery item -->
-                                <figure class="col-12 col-sm-6 col-xl-4" itemprop="associatedMedia" itemscope>
-                                    <a href="img/gallery/project-4.jpg" itemprop="contentUrl" data-size="1920x1280">
-                                        <img src="img/gallery/project-4.jpg" itemprop="thumbnail" alt="Image description" />
-                                    </a>
-                                    <figcaption itemprop="caption description">Some image caption 4</figcaption>
-                                </figure>
-                                <!-- end gallery item -->
-
-                                <!-- gallery item -->
-                                <figure class="col-12 col-sm-6 col-xl-4" itemprop="associatedMedia" itemscope>
-                                    <a href="img/gallery/project-5.jpg" itemprop="contentUrl" data-size="1920x1280">
-                                        <img src="img/gallery/project-5.jpg" itemprop="thumbnail" alt="Image description" />
-                                    </a>
-                                    <figcaption itemprop="caption description">Some image caption 5</figcaption>
-                                </figure>
-                                <!-- end gallery item -->
-
-                                <!-- gallery item -->
-                                <figure class="col-12 col-sm-6 col-xl-4" itemprop="associatedMedia" itemscope>
-                                    <a href="img/gallery/project-6.jpg" itemprop="contentUrl" data-size="1920x1280">
-                                        <img src="img/gallery/project-6.jpg" itemprop="thumbnail" alt="Image description" />
-                                    </a>
-                                    <figcaption itemprop="caption description">Some image caption 6</figcaption>
-                                </figure>
-                                <!-- end gallery item -->
-                            </div>
-                        </div>
-                        <!-- end project gallery -->
+                        <app-photos [tmdb_id]="tv_show_details().id" [media_type]="'tv_show'" itemscope></app-photos>
                     </div>
 
                     <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
                         <div class="row">
                             <!-- reviews -->
                             <div class="col-12">
-                                <div class="reviews">
-                                    <ul class="reviews__list">
-                                        <li class="reviews__item">
-                                            <div class="reviews__autor">
-                                                <img class="reviews__avatar" src="img/user.png" alt="">
-                                                <span class="reviews__name">Best Marvel movie in my opinion</span>
-                                                <span class="reviews__time">24.08.2018, 17:53 by John Doe</span>
-
-                                                <span class="reviews__rating"><i class="icon ion-ios-star"></i>8.4</span>
-                                            </div>
-                                            <p class="reviews__text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
-                                        </li>
-
-                                        <li class="reviews__item">
-                                            <div class="reviews__autor">
-                                                <img class="reviews__avatar" src="img/user.png" alt="">
-                                                <span class="reviews__name">Best Marvel movie in my opinion</span>
-                                                <span class="reviews__time">24.08.2018, 17:53 by John Doe</span>
-
-                                                <span class="reviews__rating"><i class="icon ion-ios-star"></i>9.0</span>
-                                            </div>
-                                            <p class="reviews__text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
-                                        </li>
-
-                                        <li class="reviews__item">
-                                            <div class="reviews__autor">
-                                                <img class="reviews__avatar" src="img/user.png" alt="">
-                                                <span class="reviews__name">Best Marvel movie in my opinion</span>
-                                                <span class="reviews__time">24.08.2018, 17:53 by John Doe</span>
-
-                                                <span class="reviews__rating"><i class="icon ion-ios-star"></i>7.5</span>
-                                            </div>
-                                            <p class="reviews__text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
-                                        </li>
-                                    </ul>
-
-                                    <form action="#" class="form">
-                                        <input type="text" class="form__input" placeholder="Title">
-                                        <textarea class="form__textarea" placeholder="Review"></textarea>
-                                        <div class="form__slider">
-                                            <div class="form__slider-rating" id="slider__rating"></div>
-                                            <div class="form__slider-value" id="form__slider-value"></div>
-                                        </div>
-                                        <button type="button" class="form__btn">Send</button>
-                                    </form>
-                                </div>
+                                <app-reviews [tmdb_id]="tv_show_details().id" [media_type]="'tv_show'"></app-reviews>
                             </div>
                             <!-- end reviews -->
                         </div>
@@ -488,7 +384,23 @@
 
             <!-- sidebar -->
             <div class="col-12 col-lg-4 col-xl-4">
-                <div class="row">
+                <div class="row" *ngIf="loadingSimilarTVShows">
+                    <!-- section title -->
+                    <div class="col-12">
+                        <h2 class="section__title section__title--sidebar">
+                            <app-skeleton-loader class="circle" width="100px" height="20px"></app-skeleton-loader>
+                        </h2>
+                    </div>
+                    <!-- end section title -->
+
+                    <!-- card -->
+                     @for(i of [].constructor(3); track i.id ){
+                    <div class="col-6 col-sm-4 col-lg-6">
+                        <app-skeleton-loader class="circle" width="40px" height="100px"></app-skeleton-loader>
+                    </div>
+                    }
+                </div>
+                <div class="row" *ngIf="!loadingSimilarTVShows">
                     <!-- section title -->
                     <div class="col-12">
                         <h2 class="section__title section__title--sidebar">You may also like...</h2>
@@ -496,128 +408,19 @@
                     <!-- end section title -->
 
                     <!-- card -->
+                    @for(item of similar_tv_shows.results; track item.id ){
                     <div class="col-6 col-sm-4 col-lg-6">
+                        <media-card [media]="item" [isCarouselCard]="false"></media-card>
+                    </div>
+                    }@empty {
+                    <div class="col-12">
                         <div class="card">
-                            <div class="card__cover">
-                                <img src="img/covers/cover.jpg" alt="">
-                                <a href="#" class="card__play">
-                                    <i class="icon ion-ios-play"></i>
-                                </a>
-                            </div>
                             <div class="card__content">
-                                <h3 class="card__title"><a href="#">I Dream in Another Language</a></h3>
-                                <span class="card__category">
-                                    <a href="#">Action</a>
-                                    <a href="#">Triler</a>
-                                </span>
-                                <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
+                                <h3 class="card__title">No Media</h3>
                             </div>
                         </div>
                     </div>
-                    <!-- end card -->
-
-                    <!-- card -->
-                    <div class="col-6 col-sm-4 col-lg-6">
-                        <div class="card">
-                            <div class="card__cover">
-                                <img src="img/covers/cover2.jpg" alt="">
-                                <a href="#" class="card__play">
-                                    <i class="icon ion-ios-play"></i>
-                                </a>
-                            </div>
-                            <div class="card__content">
-                                <h3 class="card__title"><a href="#">Benched</a></h3>
-                                <span class="card__category">
-                                    <a href="#">Comedy</a>
-                                </span>
-                                <span class="card__rate"><i class="icon ion-ios-star"></i>7.1</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end card -->
-
-                    <!-- card -->
-                    <div class="col-6 col-sm-4 col-lg-6">
-                        <div class="card">
-                            <div class="card__cover">
-                                <img src="img/covers/cover3.jpg" alt="">
-                                <a href="#" class="card__play">
-                                    <i class="icon ion-ios-play"></i>
-                                </a>
-                            </div>
-                            <div class="card__content">
-                                <h3 class="card__title"><a href="#">Whitney</a></h3>
-                                <span class="card__category">
-                                    <a href="#">Romance</a>
-                                    <a href="#">Drama</a>
-                                    <a href="#">Music</a>
-                                </span>
-                                <span class="card__rate"><i class="icon ion-ios-star"></i>6.3</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end card -->
-
-                    <!-- card -->
-                    <div class="col-6 col-sm-4 col-lg-6">
-                        <div class="card">
-                            <div class="card__cover">
-                                <img src="img/covers/cover4.jpg" alt="">
-                                <a href="#" class="card__play">
-                                    <i class="icon ion-ios-play"></i>
-                                </a>
-                            </div>
-                            <div class="card__content">
-                                <h3 class="card__title"><a href="#">Blindspotting</a></h3>
-                                <span class="card__category">
-                                    <a href="#">Comedy</a>
-                                    <a href="#">Drama</a>
-                                </span>
-                                <span class="card__rate"><i class="icon ion-ios-star"></i>7.9</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end card -->
-
-                    <!-- card -->
-                    <div class="col-6 col-sm-4 col-lg-6">
-                        <div class="card">
-                            <div class="card__cover">
-                                <img src="img/covers/cover5.jpg" alt="">
-                                <a href="#" class="card__play">
-                                    <i class="icon ion-ios-play"></i>
-                                </a>
-                            </div>
-                            <div class="card__content">
-                                <h3 class="card__title"><a href="#">I Dream in Another Language</a></h3>
-                                <span class="card__category">
-                                    <a href="#">Action</a>
-                                    <a href="#">Triler</a>
-                                </span>
-                                <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end card -->
-
-                    <!-- card -->
-                    <div class="col-6 col-sm-4 col-lg-6">
-                        <div class="card">
-                            <div class="card__cover">
-                                <img src="img/covers/cover6.jpg" alt="">
-                                <a href="#" class="card__play">
-                                    <i class="icon ion-ios-play"></i>
-                                </a>
-                            </div>
-                            <div class="card__content">
-                                <h3 class="card__title"><a href="#">Benched</a></h3>
-                                <span class="card__category">
-                                    <a href="#">Comedy</a>
-                                </span>
-                                <span class="card__rate"><i class="icon ion-ios-star"></i>7.1</span>
-                            </div>
-                        </div>
-                    </div>
+                    }
                     <!-- end card -->
                 </div>
             </div>
