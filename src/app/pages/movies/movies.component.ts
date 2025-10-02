@@ -5,6 +5,7 @@ import { MediaCardComponent, PaginationComponent } from '../../components';
 import { finalize, Subject, take, takeUntil } from 'rxjs';
 import { PaginationConfig, TMDBMovies } from '../../models';
 import { TmdbService, UiLoaderService } from '../../services';
+import { ScrollGovernor } from '../../factories';
 
 @Component({
   selector: 'app-movies',
@@ -39,6 +40,7 @@ export class MoviesComponent implements OnInit, OnDestroy {
           totalPages: results.total_pages,
           totalItems: results.total_results,
         });
+        ScrollGovernor.scrollToTop();
       }
     });
   }
