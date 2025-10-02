@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { finalize, Subject, take, takeUntil } from 'rxjs';
 import { PaginationConfig, TMDBTVShows } from '../../models';
 import { TmdbService, UiLoaderService } from '../../services';
+import { ScrollGovernor } from '../../factories';
 
 @Component({
   selector: 'app-tvshows',
@@ -39,6 +40,7 @@ export class TvshowsComponent implements OnInit, OnDestroy {
           totalPages: results.total_pages,
           totalItems: results.total_results,
         });
+        ScrollGovernor.scrollToTop();
       }
     });
   }
