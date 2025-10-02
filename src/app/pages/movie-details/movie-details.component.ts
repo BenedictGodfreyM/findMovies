@@ -11,10 +11,13 @@ import { MatBottomSheet, MatBottomSheetModule, MatBottomSheetRef } from '@angula
 import { MediaCardComponent, PhotosComponent, ReviewsComponent, SkeletonLoaderComponent, TorrentsComponent, VideoPlayerComponent } from '../../components';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { DurationPipe, FormatCountriesPipe, FormatDatePipe, FormatLanguagesPipe } from '../../pipes';
+import { RemoveIfEmptyString } from '../../directives';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { ScrollGovernor } from '../../factories';
 
 @Component({
   selector: 'app-movie-details',
-  imports: [CommonModule, RouterModule, MatSnackBarModule, MatBottomSheetModule, LazyLoadImageModule, DurationPipe, FormatDatePipe, FormatLanguagesPipe, FormatCountriesPipe, MediaCardComponent, VideoPlayerComponent, SkeletonLoaderComponent, ReviewsComponent, PhotosComponent],
+  imports: [CommonModule,RouterModule,OverlayModule,MatSnackBarModule, MatBottomSheetModule, LazyLoadImageModule, DurationPipe, FormatDatePipe, FormatLanguagesPipe, FormatCountriesPipe, MediaCardComponent, VideoPlayerComponent, SkeletonLoaderComponent, ReviewsComponent, PhotosComponent,RemoveIfEmptyString],
   templateUrl: './movie-details.component.html',
   styleUrl: './movie-details.component.css'
 })
@@ -36,6 +39,8 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.titleService.setTitle(`${this.movie_details().title} | FindMovies`);
+    
+    ScrollGovernor.scrollToTop();
 
     this.loadingOMDBDetails = true;
     this.OMDBService.details(`${this.movie_details().imdb_id}`)

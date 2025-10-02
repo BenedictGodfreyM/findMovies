@@ -32,11 +32,14 @@
                                     <span class="card__rate"><i class="icon ion-ios-star"></i>{{ movie_details().vote_average }}</span>
 
                                     <ul class="card__list">
-                                        <li *ngIf="loadingOMDBDetails"><app-skeleton-loader class="circle" width="35px" height="15px"></app-skeleton-loader></li>
-                                        <li *ngIf="!loadingOMDBDetails">IMDB: {{ OMDB_details.imdbRating }}</li>
+                                        @if (loadingOMDBDetails) {
+                                        <li><app-skeleton-loader class="circle" width="35px" height="15px"></app-skeleton-loader></li>
+                                        <li><app-skeleton-loader class="circle" width="35px" height="15px"></app-skeleton-loader></li>
+                                        }@else {
+                                        <li [appRemoveIfEmptyString]="OMDB_details.imdbRating">IMDB: {{ OMDB_details.imdbRating }}</li>    
+                                        <li [appRemoveIfEmptyString]="OMDB_details.Rated">{{ OMDB_details.Rated }}</li>
+                                        }
                                         <li>{{ movie_details().status }}</li>
-                                        <li *ngIf="loadingOMDBDetails"><app-skeleton-loader class="circle" width="35px" height="15px"></app-skeleton-loader></li>
-                                        <li *ngIf="!loadingOMDBDetails">{{ OMDB_details.Rated }}</li>
                                     </ul>
                                 </div>
 
@@ -50,14 +53,23 @@
                                     <li><span>Release date:</span> {{ movie_details().release_date | formatDate: 'Full' }}</li>
                                     <li><span>Running time:</span> {{ movie_details().runtime | duration }}</li>
                                     <li><span>Language:</span> {{ movie_details().spoken_languages | formatLanguages }}</li>
-                                    <li><span>Country:</span> <a href="#">{{ movie_details().production_countries | formatCountries }}</a> </li>
+                                    <li><span>Country:</span> {{ movie_details().production_countries | formatCountries }}</li>
                                 </ul>
 
                                 <ul class="card__meta">
-                                    <li *ngIf="loadingOMDBDetails"><app-skeleton-loader class="circle" width="35px" height="30px"></app-skeleton-loader></li>
-                                    <li *ngIf="!loadingOMDBDetails"><span>Starring:</span> {{ OMDB_details.Actors }}</li>
-                                    <li *ngIf="!loadingOMDBDetails"><span>Director:</span> {{ OMDB_details.Director }}</li>
-                                    <li *ngIf="!loadingOMDBDetails"><span>Writers:</span> {{ OMDB_details.Writer }}</li>
+                                    @if(loadingOMDBDetails){
+                                    <li><app-skeleton-loader class="circle" width="35px" height="30px"></app-skeleton-loader></li>
+                                    }@else {
+                                    <li [appRemoveIfEmptyString]="OMDB_details.Actors">
+                                        <span>Starring:</span> {{ OMDB_details.Actors }}
+                                    </li>
+                                    <li [appRemoveIfEmptyString]="OMDB_details.Director">
+                                        <span>Director:</span> {{ OMDB_details.Director }}
+                                    </li>
+                                    <li [appRemoveIfEmptyString]="OMDB_details.Writer">
+                                        <span>Writers:</span> {{ OMDB_details.Writer }}
+                                    </li>
+                                    }
                                 </ul>
 
                                 <div class="card__description card__description--details">
@@ -73,7 +85,7 @@
 
             <!-- player -->
             <div class="col-12 col-xl-6">
-                <app-video-player [tmdb_id]="movie_details().id"></app-video-player>
+                <app-video-player [tmdb_id]="movie_details().id" [media_type]="'movie'"></app-video-player>
             </div>
             <!-- end player -->
         </div>
@@ -131,7 +143,7 @@
                 <!-- content tabs -->
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
-                        <app-photos [tmdb_id]="movie_details().id" [media_type]="'movie'"></app-photos>
+                        <app-photos [tmdb_id]="movie_details().id" [media_type]="'movie'" itemscope></app-photos>
                     </div>
                     <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
                         <div class="row">
@@ -148,7 +160,8 @@
 
             <!-- sidebar -->
             <div class="col-12 col-lg-4 col-xl-4">
-                <div class="row" *ngIf="loadingSimilarMovies">
+                @if(loadingSimilarMovies){
+                <div class="row">
                     <!-- section title -->
                     <div class="col-12">
                         <h2 class="section__title section__title--sidebar">
@@ -164,7 +177,8 @@
                     </div>
                     }
                 </div>
-                <div class="row" *ngIf="!loadingSimilarMovies">
+                }@else{
+                <div class="row">
                     <!-- section title -->
                     <div class="col-12">
                         <h2 class="section__title section__title--sidebar">You may also like...</h2>
@@ -186,6 +200,7 @@
                     </div>
                     }
                 </div>
+                }
             </div>
             <!-- end sidebar -->
         </div>
