@@ -20,7 +20,7 @@ export interface TMDBSeries extends TMDBSeriesMarkUp{
 }
 
 export interface TMDBSeriesDetails extends TMDBSeriesMarkUp{
-  episode_run_time: Array<number>;
+  episode_run_time: number | null;
   genres: Array<TMDBMovieGenre>;
   homepage: string;
   in_production: boolean;
