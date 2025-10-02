@@ -49,11 +49,13 @@
             </div>
             } @empty {
             <div class="col-12">
-                <div class="card" *ngIf="hasSearched()">
+                @if(hasSearched()){
+                <div class="card">
                     <div class="card__content">
                         <h3 class="card__title">No Media</h3>
                     </div>
                 </div>
+                }
             </div>
             }
         </div>
