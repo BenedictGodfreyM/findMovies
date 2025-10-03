@@ -32,11 +32,14 @@
                                     <span class="card__rate"><i class="icon ion-ios-star"></i>{{ tv_show_details().vote_average }}</span>
 
                                     <ul class="card__list">
-                                        <li *ngIf="loadingOMDBDetails"><app-skeleton-loader class="circle" width="35px" height="15px"></app-skeleton-loader></li>
-                                        <li *ngIf="!loadingOMDBDetails" [appRemoveIfEmptyString]="OMDB_details.imdbRating">IMDB: {{ OMDB_details.imdbRating }}</li>
+                                        @if(loadingOMDBDetails){
+                                        <li><app-skeleton-loader class="circle" width="35px" height="15px"></app-skeleton-loader></li>
+                                        <li><app-skeleton-loader class="circle" width="35px" height="15px"></app-skeleton-loader></li>
+                                        }@else{
+                                        <li [appRemoveIfEmptyString]="OMDB_details.imdbRating">IMDB: {{ OMDB_details.imdbRating }}</li>
+                                        <li [appRemoveIfEmptyString]="OMDB_details.Rated">{{ OMDB_details.Rated }}</li>
+                                        }
                                         <li>{{ tv_show_details().status }}</li>
-                                        <li *ngIf="loadingOMDBDetails"><app-skeleton-loader class="circle" width="35px" height="15px"></app-skeleton-loader></li>
-                                        <li *ngIf="!loadingOMDBDetails" [appRemoveIfEmptyString]="OMDB_details.Rated">{{ OMDB_details.Rated }}</li>
                                     </ul>
                                 </div>
 
@@ -53,16 +56,19 @@
                                 </ul>
 
                                 <ul class="card__meta">
-                                    <li *ngIf="loadingOMDBDetails"><app-skeleton-loader class="circle" width="35px" height="30px"></app-skeleton-loader></li>
-                                    <li *ngIf="!loadingOMDBDetails" [appRemoveIfEmptyString]="OMDB_details.Actors">
+                                    @if(loadingOMDBDetails){
+                                    <li><app-skeleton-loader class="circle" width="35px" height="30px"></app-skeleton-loader></li>
+                                    }@else{
+                                    <li [appRemoveIfEmptyString]="OMDB_details.Actors">
                                         <span>Starring:</span> {{ OMDB_details.Actors }}
                                     </li>
-                                    <li *ngIf="!loadingOMDBDetails" [appRemoveIfEmptyString]="OMDB_details.Director">
+                                    <li [appRemoveIfEmptyString]="OMDB_details.Director">
                                         <span>Director:</span> {{ OMDB_details.Director }}
                                     </li>
-                                    <li *ngIf="!loadingOMDBDetails" [appRemoveIfEmptyString]="OMDB_details.Writer">
+                                    <li [appRemoveIfEmptyString]="OMDB_details.Writer">
                                         <span>Writers:</span> {{ OMDB_details.Writer }}
                                     </li>
+                                    }
                                 </ul>
 
                                 <div class="card__description card__description--details">
