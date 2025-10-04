@@ -1,0 +1,36 @@
+<div class="accordion__card">
+    <div class="card-header" id="headingOne">
+        <button type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            <span>Season: {{ season.season_number }}</span>
+            <span>{{ season.episode_count }} Episodes ({{ season.air_date | formatDate: 'full'}})</span>
+        </button>
+    </div>
+
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+        <div class="card-body">
+            <table class="accordion__list">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Title</th>
+                        <th>Air Date</th>
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    @for (episode of season.episodes; track episode.id) {
+                    <tr>
+                        <th>{{ episode.episode_number }}</th>
+                        <td>{{ episode.overview }}</td>
+                        <td>{{ episode.air_date | formatDate: 'full'}}</td>
+                    </tr>
+                    }@empty {
+                    <tr>
+                        <th colspan="3" style="text-align: center;">No episodes yet!!!</th>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
