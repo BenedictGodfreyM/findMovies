@@ -1,19 +1,17 @@
 import { Component, computed, inject, OnDestroy, OnInit } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Data, RouterModule } from '@angular/router';
 import { finalize, Subject, switchMap, takeUntil } from 'rxjs';
-import { OMDBMedia, TMDBSeriesDetails, TMDBTVShows, TMDBTVShowSeason, Torrent, Torrents } from '../../models';
-import { ImgLoaderService, OmdbService, TmdbService, TorrentService } from '../../services';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatBottomSheet, MatBottomSheetModule, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { OMDBMedia, TMDBSeriesDetails, TMDBTVShows, TMDBTVShowSeason } from '@/app/interfaces';
+import { ImgLoaderService, OmdbService, TmdbService } from '@/app/services';
 import { CommonModule } from '@angular/common';
-import { MediaCardComponent, PhotosComponent, ReviewsComponent, SkeletonLoaderComponent, TorrentsComponent, VideoPlayerComponent } from '../../components';
+import { MediaCardComponent, PhotosComponent, ReviewsComponent, SkeletonLoaderComponent, VideoPlayerComponent } from '@/app/components';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
-import { DurationPipe, FormatCountriesPipe, FormatLanguagesPipe } from '../../pipes';
-import { RemoveIfEmptyString } from '../../directives';
-import { ScrollGovernor } from '../../factories';
+import { DurationPipe, FormatCountriesPipe, FormatLanguagesPipe } from '@/app/pipes';
+import { RemoveIfEmptyString } from '@/app/directives';
+import { ScrollGovernor } from '@/app/utils';
 import { TvshowSeason } from "./tvshow-season/tvshow-season";
 
 @Component({
@@ -24,11 +22,9 @@ import { TvshowSeason } from "./tvshow-season/tvshow-season";
 })
 export class TvshowDetailsComponent implements OnInit, OnDestroy {
   private _destroyed$: Subject<boolean> = new Subject();
-  private route = inject(ActivatedRoute);
-  private data = toSignal(this.route.data);
-  public tv_show_details = computed(() => (this.data()?.['tv_show'] as unknown) as TMDBSeriesDetails);
+  private _route = inject(ActivatedRoute);
+  public tv_show_details: TMDBSeriesDetails = (this._route.snapshot.data["tv_show"] as TMDBSeriesDetails);
   public tv_seasons: Array<TMDBTVShowSeason> = new Array();
-  private allowed_tvshow_status_options: Array<string> = ["Returning Series", "Ended", "Canceled"];
   public loadingOMDBDetails: boolean = false;
   public OMDB_details!: OMDBMedia;
   public loadingSimilarTVShows: boolean = false;
@@ -37,12 +33,15 @@ export class TvshowDetailsComponent implements OnInit, OnDestroy {
   constructor(private titleService: Title,private OMDBService: OmdbService,private TMDBService: TmdbService,public IMGLoader: ImgLoaderService){}
 
   ngOnInit(): void {
-    this.titleService.setTitle(`${this.tv_show_details().name} | FindMovies`);
+    this.titleService.setTitle(`${this.tv_show_details.name} | FindMovies`);
     
-    ScrollGovernor.scrollToTop();
+    this._route.data.subscribe((data: Data) => {
+      this.tv_show_details = data['tv_show'];
+      ScrollGovernor.scrollToTop();
+    });
     
     this.loadingOMDBDetails = true;
-    this.TMDBService.tv_show_external_ids(this.tv_show_details().id)
+    this.TMDBService.tv_show_external_ids(this.tv_show_details.id)
     .pipe(
       switchMap((external_ids) => this.OMDBService.details(external_ids.imdb_id)),
       takeUntil(this._destroyed$),finalize(() => this.loadingOMDBDetails = false))
@@ -51,7 +50,7 @@ export class TvshowDetailsComponent implements OnInit, OnDestroy {
     });
 
     this.loadingSimilarTVShows = true;
-    this.TMDBService.similar_tv_shows(this.tv_show_details().id)
+    this.TMDBService.similar_tv_shows(this.tv_show_details.id)
     .pipe(takeUntil(this._destroyed$),finalize(() => this.loadingSimilarTVShows = false))
     .subscribe({
       next: (tv_shows) => this.similar_tv_shows = tv_shows

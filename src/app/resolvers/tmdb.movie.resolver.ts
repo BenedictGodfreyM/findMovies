@@ -1,7 +1,7 @@
 import { RedirectCommand, ResolveFn, Router } from "@angular/router";
-import { TMDBMovieDetails } from "../models";
+import { TMDBMovieDetails } from "@/app/interfaces";
 import { inject } from "@angular/core";
-import { NavigationService, TmdbService, UiLoaderService } from "../services";
+import { NavigationService, TmdbService, UiLoaderService } from "@/app/services";
 import { catchError, finalize, of } from "rxjs";
 
 export const TMDBMovieResolver: ResolveFn<TMDBMovieDetails|RedirectCommand> = (route) => {

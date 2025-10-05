@@ -48,7 +48,7 @@ export interface TMDBTVShows{
 export interface TMDBTVShowSeason{
   _id: string;
   air_date: string;
-  episodes: Array<TMDBTVShowEpisode>;
+  episodes: Array<TMDBTVShowEpisode>|undefined;
   episode_count: number;
   name: string;
   overview: string;

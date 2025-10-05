@@ -1,4 +1,4 @@
-export interface TMDBMovieVideo{
+export interface TMDBVideo{
   id: string;
   iso_639_1: string;
   iso_3166_1: string;
@@ -11,7 +11,7 @@ export interface TMDBMovieVideo{
   published_at: string;
 }
 
-export interface TMDBMovieVideos{
+export interface TMDBVideos{
   id: number;
-  results: Array<TMDBMovieVideo>;
+  results: Array<TMDBVideo>;
 }

@@ -1,12 +1,12 @@
 <div class="accordion__card">
-    <div class="card-header" id="headingOne">
-        <button type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+    <div class="card-header" id="heading-{{ season.season_number }}">
+        <button type="button" data-toggle="collapse" [attr.data-target]="'#collapse-' + season.season_number" aria-expanded="true" [attr.aria-controls]="'collapse-' + season.season_number">
             <span>Season: {{ season.season_number }}</span>
             <span>{{ season.episode_count }} Episodes ({{ season.air_date | formatDate: 'full'}})</span>
         </button>
     </div>
 
-    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+    <div id="collapse-{{ season.season_number }}" class="collapse" [attr.aria-labelledby]="'heading-' + season.season_number" data-parent="#accordion">
         <div class="card-body">
             <table class="accordion__list">
                 <thead>
@@ -18,16 +18,24 @@
                 </thead>
                 
                 <tbody>
-                    @for (episode of season.episodes; track episode.id) {
-                    <tr>
-                        <th>{{ episode.episode_number }}</th>
-                        <td>{{ episode.overview }}</td>
-                        <td>{{ episode.air_date | formatDate: 'full'}}</td>
-                    </tr>
-                    }@empty {
-                    <tr>
-                        <th colspan="3" style="text-align: center;">No episodes yet!!!</th>
-                    </tr>
+                    @if(season.episode_count > 0){
+                        @if(!fetchingEpisodes){
+                            @for (episode of episodes; track episode.id) {
+                            <tr>
+                                <th>{{ episode.episode_number }}</th>
+                                <td>{{ episode.overview }}</td>
+                                <td>{{ episode.air_date | formatDate: 'full'}}</td>
+                            </tr>
+                            }
+                        }@else {
+                            <tr>
+                                <td colspan="3" style="text-align: center;">Loading...</td>
+                            </tr>
+                        }
+                    }@else {
+                        <tr>
+                            <td colspan="3" style="text-align: center;">No episodes yet!!!</td>
+                        </tr>
                     }
                 </tbody>
             </table>

@@ -1,5 +1,5 @@
 import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
-import { TMDBMovies,TMDBTVShows } from '../models';
+import { TMDBMovies,TMDBTVShows } from '@/app/interfaces';
 
 @Directive({
   selector: '[appFoundMedia]'

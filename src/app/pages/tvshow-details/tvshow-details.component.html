@@ -9,7 +9,7 @@
         <div class="row">
             <!-- title -->
             <div class="col-12">
-                <h1 class="details__title">{{ tv_show_details().name }}</h1>
+                <h1 class="details__title">{{ tv_show_details.name }}</h1>
             </div>
             <!-- end title -->
 
@@ -20,7 +20,7 @@
                         <!-- card cover -->
                         <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-3">
                             <div class="card__cover">
-                                <img [lazyLoad]="IMGLoader.generateURL(tv_show_details().poster_path)" [errorImage]="IMGLoader.errorImage" [decode]="true">
+                                <img [lazyLoad]="IMGLoader.generateURL(tv_show_details.poster_path)" [errorImage]="IMGLoader.errorImage" [decode]="true">
                             </div>
                         </div>
                         <!-- end card cover -->
@@ -29,7 +29,7 @@
                         <div class="col-12 col-sm-8 col-md-8 col-lg-9 col-xl-9">
                             <div class="card__content">
                                 <div class="card__wrap">
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>{{ tv_show_details().vote_average }}</span>
+                                    <span class="card__rate"><i class="icon ion-ios-star"></i>{{ tv_show_details.vote_average }}</span>
 
                                     <ul class="card__list">
                                         @if(loadingOMDBDetails){
@@ -39,20 +39,20 @@
                                         <li [appRemoveIfEmptyString]="OMDB_details.imdbRating">IMDB: {{ OMDB_details.imdbRating }}</li>
                                         <li [appRemoveIfEmptyString]="OMDB_details.Rated">{{ OMDB_details.Rated }}</li>
                                         }
-                                        <li>{{ tv_show_details().status }}</li>
+                                        <li>{{ tv_show_details.status }}</li>
                                     </ul>
                                 </div>
 
                                 <ul class="card__meta">
                                     <li>
                                         <span>Genre:</span> 
-                                        @for(item of tv_show_details().genres; track item.id ){
+                                        @for(item of tv_show_details.genres; track item.id ){
                                         <a href="#">{{ item.name }}</a>
                                         }
                                     </li>
-                                    <li><span>Running time:</span> {{ tv_show_details().episode_run_time | duration }}</li>
-                                    <li><span>Language:</span> {{ tv_show_details().spoken_languages | formatLanguages }}</li>
-                                    <li><span>Country:</span> {{ tv_show_details().production_countries | formatCountries }}</li>
+                                    <li><span>Running time:</span> {{ tv_show_details.episode_run_time | duration }}</li>
+                                    <li><span>Language:</span> {{ tv_show_details.spoken_languages | formatLanguages }}</li>
+                                    <li><span>Country:</span> {{ tv_show_details.production_countries | formatCountries }}</li>
                                 </ul>
 
                                 <ul class="card__meta">
@@ -72,7 +72,7 @@
                                 </ul>
 
                                 <div class="card__description card__description--details">
-                                    {{ tv_show_details().overview }}
+                                    {{ tv_show_details.overview }}
                                 </div>
                             </div>
                         </div>
@@ -84,15 +84,19 @@
 
             <!-- player -->
             <div class="col-12 col-xl-6">
-                <app-video-player [tmdb_id]="tv_show_details().id" [media_type]="'tv_show'"></app-video-player>
+                <app-video-player [tmdb_id]="tv_show_details.id" [media_type]="'tv_show'"></app-video-player>
             </div>
             <!-- end player -->
 
             <!-- accordion -->
             <div class="col-12 col-xl-6">
                 <div class="accordion" id="accordion">
-                    @for (item of tv_show_details().seasons; track item.id) {
-                    <tvshow-season [season]="item"></tvshow-season>
+                    @if(tv_show_details.number_of_seasons > 0){
+                        @for (item of tv_show_details.seasons; track item.id) {
+                            @if(item.season_number > 0){
+                            <tvshow-season [tv_show_id]="tv_show_details.id" [season]="item"></tvshow-season>
+                            }
+                        }
                     }
                 </div>
             </div>
@@ -116,11 +120,10 @@
                     <!-- content tabs nav -->
                     <ul class="nav nav-tabs content__tabs" id="content__tabs" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Photos</a>
+                            <a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Reviews</a>
                         </li>
-
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Reviews</a>
+                            <a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Photos</a>
                         </li>
                     </ul>
                     <!-- end content tabs nav -->
@@ -134,9 +137,8 @@
 
                         <div class="content__mobile-tabs-menu dropdown-menu" aria-labelledby="mobile-tabs">
                             <ul class="nav nav-tabs" role="tablist">
-                                <li class="nav-item"><a class="nav-link active" id="1-tab" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Photos</a></li>
-
-                                <li class="nav-item"><a class="nav-link" id="2-tab" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Reviews</a></li>
+                                <li class="nav-item"><a class="nav-link active" id="1-tab" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Reviews</a></li>
+                                <li class="nav-item"><a class="nav-link" id="2-tab" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Photos</a></li>
                             </ul>
                         </div>
                     </div>
@@ -152,17 +154,16 @@
                 <!-- content tabs -->
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
-                        <app-photos [tmdb_id]="tv_show_details().id" [media_type]="'tv_show'" itemscope></app-photos>
-                    </div>
-
-                    <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
                         <div class="row">
                             <!-- reviews -->
                             <div class="col-12">
-                                <app-reviews [tmdb_id]="tv_show_details().id" [media_type]="'tv_show'"></app-reviews>
+                                <app-reviews [tmdb_id]="tv_show_details.id" [media_type]="'tv_show'"></app-reviews>
                             </div>
                             <!-- end reviews -->
                         </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
+                        <app-photos [tmdb_id]="tv_show_details.id" [media_type]="'tv_show'" itemscope></app-photos>
                     </div>
                 </div>
                 <!-- end content tabs -->
@@ -170,7 +171,8 @@
 
             <!-- sidebar -->
             <div class="col-12 col-lg-4 col-xl-4">
-                <div class="row" *ngIf="loadingSimilarTVShows">
+                @if(loadingSimilarTVShows){
+                <div class="row">
                     <!-- section title -->
                     <div class="col-12">
                         <h2 class="section__title section__title--sidebar">
@@ -180,35 +182,39 @@
                     <!-- end section title -->
 
                     <!-- card -->
-                     @for(i of [].constructor(3); track i.id ){
+                     @for(i of [].constructor(3); track i){
                     <div class="col-6 col-sm-4 col-lg-6">
                         <app-skeleton-loader class="circle" width="40px" height="100px"></app-skeleton-loader>
                     </div>
                     }
                 </div>
-                <div class="row" *ngIf="!loadingSimilarTVShows">
-                    <!-- section title -->
-                    <div class="col-12">
-                        <h2 class="section__title section__title--sidebar">You may also like...</h2>
-                    </div>
-                    <!-- end section title -->
+                }@else{
+                    @if(similar_tv_shows.results && similar_tv_shows.results.length > 0){
+                    <div class="row">
+                        <!-- section title -->
+                        <div class="col-12">
+                            <h2 class="section__title section__title--sidebar">You may also like...</h2>
+                        </div>
+                        <!-- end section title -->
 
-                    <!-- card -->
-                    @for(item of similar_tv_shows.results; track item.id ){
-                    <div class="col-6 col-sm-4 col-lg-6">
-                        <media-card [media]="item" [isCarouselCard]="false"></media-card>
-                    </div>
-                    }@empty {
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card__content">
-                                <h3 class="card__title">No Media</h3>
+                        <!-- card -->
+                        @for(item of similar_tv_shows.results; track item.id ){
+                        <div class="col-6 col-sm-4 col-lg-6">
+                            <media-card [media]="item" [isCarouselCard]="false"></media-card>
+                        </div>
+                        }@empty {
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card__content">
+                                    <h3 class="card__title">No Media</h3>
+                                </div>
                             </div>
                         </div>
+                        }
+                        <!-- end card -->
                     </div>
                     }
-                    <!-- end card -->
-                </div>
+                }
             </div>
             <!-- end sidebar -->
         </div>

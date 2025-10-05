@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject, shareReplay, switchMap } from 'rxjs';
-import { Torrents } from '../models';
-import { environment } from '../../environments/environment';
+import { Torrents } from '@/app/interfaces';
+import { environment } from '@/environments/environment';
 
 @Injectable({
   providedIn: 'root'

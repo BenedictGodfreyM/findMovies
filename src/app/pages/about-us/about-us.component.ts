@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from '../../../environments/environment';
-import { ScrollGovernor } from '../../factories';
+import { environment } from '@/environments/environment';
+import { ScrollGovernor } from '@/app/utils';
 import { CommonModule } from '@angular/common';
 
 @Component({

@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { finalize, Subject, takeUntil } from 'rxjs';
-import { TMDBMovieReviews } from '../../models';
-import { ImgLoaderService, TmdbService } from '../../services';
+import { TMDBMovieReviews } from '@/app/interfaces';
+import { ImgLoaderService, TmdbService } from '@/app/services';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { SkeletonLoaderComponent } from '..';
 

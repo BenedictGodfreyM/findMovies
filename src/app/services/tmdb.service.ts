@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ExternalIDs, TMDBMovieDetails, TMDBMovieGenre, TMDBMovieImages, TMDBMovies, TMDBMovieVideos, TMDBSeriesDetails, TMDBTVShows, TMDBTVShowSeason, TMDBMovieReviews, TMDBSearchResults, TMDBMovie, TMDBSeries } from '../models';
-import { environment } from '../../environments/environment';
+import { ExternalIDs, TMDBMovieDetails, TMDBMovieGenre, TMDBMovieImages, TMDBMovies, TMDBVideos, TMDBSeriesDetails, TMDBTVShows, TMDBTVShowSeason, TMDBMovieReviews, TMDBSearchResults, TMDBMovie, TMDBSeries } from '@/app/interfaces';
+import { environment } from '@/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -59,9 +59,9 @@ export class TmdbService {
     return this.http.get<TMDBMovieDetails>(`${environment.api.tmdb.url}/movie/${movie_id}`, { params: params });
   }
 
-  public movie_videos(movie_id: number): Observable<TMDBMovieVideos>{
+  public movie_videos(movie_id: number): Observable<TMDBVideos>{
     let params = new HttpParams().set("api_key", environment.api.tmdb.key).set("language", "en-US");
-    return this.http.get<TMDBMovieVideos>(`${environment.api.tmdb.url}/movie/${movie_id}/videos`, { params: params });
+    return this.http.get<TMDBVideos>(`${environment.api.tmdb.url}/movie/${movie_id}/videos`, { params: params });
   }
 
   public movie_images(movie_id: number): Observable<TMDBMovieImages>{
@@ -127,14 +127,14 @@ export class TmdbService {
     return this.http.get<TMDBTVShowSeason>(`${environment.api.tmdb.url}/tv/${tvshow_id}/season/${season_number}`, { params: params });
   }
 
-  public tv_show_season_videos(tvshow_id: number, season_number: number): Observable<TMDBMovieVideos>{
+  public tv_show_season_videos(tvshow_id: number, season_number: number): Observable<TMDBVideos>{
     let params = new HttpParams().set("api_key", environment.api.tmdb.key).set("language", "en-US");
-    return this.http.get<TMDBMovieVideos>(`${environment.api.tmdb.url}/tv/${tvshow_id}/season/${season_number}/videos`, { params: params });
+    return this.http.get<TMDBVideos>(`${environment.api.tmdb.url}/tv/${tvshow_id}/season/${season_number}/videos`, { params: params });
   }
 
-  public tv_show_videos(tvshow_id: number): Observable<TMDBMovieVideos>{
+  public tv_show_videos(tvshow_id: number): Observable<TMDBVideos>{
     let params = new HttpParams().set("api_key", environment.api.tmdb.key).set("language", "en-US");
-    return this.http.get<TMDBMovieVideos>(`${environment.api.tmdb.url}/tv/${tvshow_id}/videos`, { params: params });
+    return this.http.get<TMDBVideos>(`${environment.api.tmdb.url}/tv/${tvshow_id}/videos`, { params: params });
   }
 
   public tv_show_images(tvshow_id: number): Observable<TMDBMovieImages>{

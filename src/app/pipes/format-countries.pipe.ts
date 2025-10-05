@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { TMDBMovieCountry } from '../models';
+import { TMDBMovieCountry } from '@/app/interfaces';
 
 @Pipe({
   name: 'formatCountries'

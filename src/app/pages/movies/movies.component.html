@@ -25,11 +25,13 @@
 <div class="catalog">
     <div class="container">
         <div class="row" style="margin-top: 8px;">
-            @for(item of movies.results; track item.id ){
-            <div class="col-6 col-sm-4 col-lg-3 col-xl-2" style="margin-bottom: 8px;">
-                <media-card [media]="item" [isCarouselCard]="false"></media-card>
-            </div>
-            } @empty {
+            @if(movies.results){
+                @for(item of movies.results; track item.id ){
+                <div class="col-6 col-sm-4 col-lg-3 col-xl-2" style="margin-bottom: 8px;">
+                    <media-card [media]="item" [isCarouselCard]="false"></media-card>
+                </div>
+                } 
+            }@else {
             <div class="col-12">
                 <div class="card">
                     <div class="card__content">
@@ -38,7 +40,6 @@
                 </div>
             </div>
             }
-
             <!-- paginator -->
             @if(movies.results){
             <app-pagination [config]="pagination()" (pageChange)="getPopularMovies($event)" [loading]="UILoader.loading()"></app-pagination>

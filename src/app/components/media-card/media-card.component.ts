@@ -1,12 +1,12 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
-import { TMDBMovie, TMDBMovieDetails, TMDBSeries, TMDBSeriesDetails } from '../../models';
+import { TMDBMovie, TMDBMovieDetails, TMDBSeries, TMDBSeriesDetails } from '@/app/interfaces';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ImgLoaderService, TmdbService } from '../../services';
-import { FormatDatePipe } from '../../pipes';
+import { ImgLoaderService, TmdbService } from '@/app/services';
+import { FormatDatePipe } from '@/app/pipes';
 import { finalize, Subject, takeUntil } from 'rxjs';
-import { SkeletonLoaderComponent } from '../skeleton-loader/skeleton-loader.component';
+import { SkeletonLoaderComponent } from '@/app/components/skeleton-loader/skeleton-loader.component';
 
 @Component({
   selector: 'media-card',

@@ -1,19 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnDestroy, OnInit } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, RouterModule } from '@angular/router';
-import { OMDBMedia, TMDBMovieDetails, TMDBMovies, Torrent, Torrents } from '../../models';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, ActivatedRouteSnapshot, Data, RouterModule } from '@angular/router';
+import { OMDBMedia, TMDBMovieDetails, TMDBMovies, Torrent, Torrents } from '@/app/interfaces';
 import { finalize, Subject, takeUntil } from 'rxjs';
 import { Title } from '@angular/platform-browser';
-import { ImgLoaderService, OmdbService, TmdbService, TorrentService } from '../../services';
+import { ImgLoaderService, OmdbService, TmdbService, TorrentService } from '@/app/services';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatBottomSheet, MatBottomSheetModule, MatBottomSheetRef } from '@angular/material/bottom-sheet';
-import { MediaCardComponent, PhotosComponent, ReviewsComponent, SkeletonLoaderComponent, TorrentsComponent, VideoPlayerComponent } from '../../components';
+import { MediaCardComponent, PhotosComponent, ReviewsComponent, SkeletonLoaderComponent, TorrentsComponent, VideoPlayerComponent } from '@/app/components';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
-import { DurationPipe, FormatCountriesPipe, FormatDatePipe, FormatLanguagesPipe } from '../../pipes';
-import { RemoveIfEmptyString } from '../../directives';
+import { DurationPipe, FormatCountriesPipe, FormatDatePipe, FormatLanguagesPipe } from '@/app/pipes';
+import { RemoveIfEmptyString } from '@/app/directives';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { ScrollGovernor } from '../../factories';
+import { ScrollGovernor } from '@/app/utils';
 
 @Component({
   selector: 'app-movie-details',
@@ -23,9 +22,8 @@ import { ScrollGovernor } from '../../factories';
 })
 export class MovieDetailsComponent implements OnInit, OnDestroy {
   private _destroyed$: Subject<boolean> = new Subject();
-  private route = inject(ActivatedRoute);
-  private data = toSignal(this.route.data);
-  public movie_details = computed(() => (this.data()?.['movie'] as unknown) as TMDBMovieDetails);
+  private _route = inject(ActivatedRoute);
+  public movie_details: TMDBMovieDetails = (this._route.snapshot.data["movie"] as TMDBMovieDetails);
   public loadingOMDBDetails: boolean = false;
   public OMDB_details!: OMDBMedia;
   public fetchingTorrents: boolean = false;
@@ -37,20 +35,23 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
 
   constructor(private titleService: Title,private OMDBService: OmdbService,private TMDBService: TmdbService,private torrentClient: TorrentService,private snackBar: MatSnackBar,private bottomSheet: MatBottomSheet,public IMGLoader: ImgLoaderService){}
 
-  ngOnInit(): void {
-    this.titleService.setTitle(`${this.movie_details().title} | FindMovies`);
+  ngOnInit(): void {    
+    this.titleService.setTitle(`${this.movie_details.title} | FindMovies`);
     
-    ScrollGovernor.scrollToTop();
+    this._route.data.subscribe((data: Data) => {
+      this.movie_details = data['movie'];
+      ScrollGovernor.scrollToTop();
+    });
 
     this.loadingOMDBDetails = true;
-    this.OMDBService.details(`${this.movie_details().imdb_id}`)
+    this.OMDBService.details(`${this.movie_details.imdb_id}`)
     .pipe(takeUntil(this._destroyed$),finalize(() => this.loadingOMDBDetails = false))
     .subscribe({
       next: (movie) => this.OMDB_details = movie
     });
 
     this.loadingSimilarMovies = true;
-    this.TMDBService.similar_movies(this.movie_details().id)
+    this.TMDBService.similar_movies(this.movie_details.id)
     .pipe(takeUntil(this._destroyed$),finalize(() => this.loadingSimilarMovies = false))
     .subscribe({
       next: (movies) => this.similar_movies = movies
@@ -71,7 +72,7 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
           results.data.forEach((value, index, array) => {
             this.torrents.push(value);
           });
-          const regex = this.generateMovieTorrentRegExp(title, this.movie_details().release_date);
+          const regex = this.generateMovieTorrentRegExp(title, this.movie_details?.release_date);
           this.torrents = this.torrents.filter((torrent, index, torrents) => regex.test(torrent.name?.toString()));
           this.torrents = this.torrents.sort((a, b) => parseInt((b.seeders).replace(/,/g, '')) - parseInt((a.seeders).replace(/,/g, '')));
           this.torrents = this.torrents.slice(0, 40);

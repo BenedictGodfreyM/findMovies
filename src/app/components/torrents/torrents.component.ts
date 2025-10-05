@@ -3,7 +3,7 @@ import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA, MatBottomSheetModule } from '
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatListModule } from "@angular/material/list";
 import { ClipboardModule, ClipboardService } from 'ngx-clipboard';
-import { Torrent } from '../../models';
+import { Torrent } from '@/app/interfaces';
 import { CommonModule } from '@angular/common';
 
 @Component({

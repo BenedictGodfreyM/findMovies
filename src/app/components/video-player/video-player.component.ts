@@ -1,10 +1,10 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { SkeletonLoaderComponent } from '../skeleton-loader/skeleton-loader.component';
 import { finalize, Subject, takeUntil } from 'rxjs';
-import { TmdbService } from '../../services';
-import { TMDBMovieVideos } from '../../models';
+import { TmdbService } from '@/app/services';
+import { TMDBVideos } from '@/app/interfaces';
 import { CommonModule } from '@angular/common';
-import { SafePipe } from '../../pipes';
+import { SafePipe } from '@/app/pipes';
 
 @Component({
   selector: 'app-video-player',
@@ -40,7 +40,7 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
     }
   }
   
-  private processMovieVideos(videos: TMDBMovieVideos): void{
+  private processMovieVideos(videos: TMDBVideos): void{
     let v = videos.results;
     v = v.filter((video, i, arr) => video.site === "YouTube" && video.type === "Trailer" && video.official === true);
     v = v.sort((a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime());

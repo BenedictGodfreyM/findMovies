@@ -3,7 +3,8 @@
   <div mat-subheader>
     <span style="font-weight: bolder;" [style.color]="torrent.enphasis">{{ torrent.release_format_type }}</span>
   </div>
-  <mat-list-item matRipple *ngFor="let file of torrent.files;" (click)="copy(file)">
+  @for(file of torrent.files;track $index){
+  <mat-list-item matRipple (click)="copy(file)">
     <h3 matLine>{{ file.name }}</h3>
     <p matLine>
       <span class="badge badge-o">
@@ -20,6 +21,7 @@
       </span>
     </p>
   </mat-list-item>
+  }
   <mat-divider></mat-divider>
   }
 </mat-list>

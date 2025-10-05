@@ -2,7 +2,7 @@ export * from './tmdb.movie';
 export * from './tmdb.movie.genre';
 export * from './tmdb.movie.country';
 export * from './tmdb.movie.language';
-export * from './tmdb.movie.video';
+export * from './tmdb.video';
 export * from './tmdb.movie.crew';
 export * from './tmdb.movie.image';
 export * from './tmdb.movie.review';

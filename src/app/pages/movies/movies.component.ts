@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { MediaCardComponent, PaginationComponent } from '../../components';
+import { MediaCardComponent, PaginationComponent } from '@/app/components';
 import { finalize, Subject, take, takeUntil } from 'rxjs';
-import { PaginationConfig, TMDBMovies } from '../../models';
-import { TmdbService, UiLoaderService } from '../../services';
-import { ScrollGovernor } from '../../factories';
+import { PaginationConfig, TMDBMovies } from '@/app/interfaces';
+import { TmdbService, UiLoaderService } from '@/app/services';
+import { ScrollGovernor } from '@/app/utils';
 
 @Component({
   selector: 'app-movies',

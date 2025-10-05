@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { TMDBMovieLanguage } from '../models';
+import { TMDBMovieLanguage } from '@/app/interfaces';
 
 @Pipe({
   name: 'formatLanguages'

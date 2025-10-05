@@ -1,4 +1,5 @@
 import { TMDBMovieGenre, TMDBMovieLanguage, TMDBMovieCountry } from ".";
+import { TMDBMovieStatus } from "@/app/enums";
 
 export interface TMDBMovieMarkUp{
   adult: boolean;
@@ -32,15 +33,6 @@ export interface TMDBMovieDetails extends TMDBMovieMarkUp{
   production_countries: Array<TMDBMovieCountry>;
   status: TMDBMovieStatus;
   tagline: string | null;
-}
-
-export enum TMDBMovieStatus{
-  'Rumored',
-  'Planned',
-  'In Production',
-  'Post Production',
-  'Released',
-  'Canceled'
 }
 
 export interface TMDBMovies{

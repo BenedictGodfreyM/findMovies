@@ -4,9 +4,9 @@ import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { BehaviorSubject, debounceTime, distinctUntilChanged, finalize, Observable, Subject, Subscription, switchMap, take, takeUntil } from 'rxjs';
-import { TmdbService, UiLoaderService } from '../../services';
-import { TMDBMovie, TMDBSearchResults, TMDBSeries } from '../../models';
-import { MediaCardComponent } from '../../components';
+import { TmdbService, UiLoaderService } from '@/app/services';
+import { TMDBMovie, TMDBSearchResults, TMDBSeries } from '@/app/interfaces';
+import { MediaCardComponent } from '@/app/components';
 
 @Component({
   selector: 'app-search',
@@ -46,11 +46,11 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   public searchItems(query: string): Observable<TMDBSearchResults>{
     this.emptySearchedResults();
-    this.UILoader.showSpinner();
+    this.searchingItems = true;
     this.applicationRef.tick();
     return this.TMDBService.search_multi(query)
     .pipe(take(1), takeUntil(this._destroyed$), finalize(() => { 
-      this.UILoader.stopSpinner();
+      this.searchingItems = false;
       this.hasSearched$.next(true);
       this.applicationRef.tick(); 
     }));

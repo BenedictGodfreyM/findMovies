@@ -1,31 +1,4 @@
-<section class="home home--bg">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <h1 class="home__title"><b>NOW PLAYING</b> IN THEATERS</h1>
-
-                <button class="home__nav home__nav--prev" type="button">
-                    <i class="icon ion-ios-arrow-round-back"></i>
-                </button>
-                <button class="home__nav home__nav--next" type="button">
-                    <i class="icon ion-ios-arrow-round-forward"></i>
-                </button>
-            </div>
-
-            <div class="col-12">
-                <div class="owl-carousel home__carousel">
-                    @for(item of now_playing_movies.results; track item.id ){
-                    <div class="item">
-                        <media-card [media]="item" [isCarouselCard]="true"></media-card>
-                    </div>
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="content">
+<section class="content" style="margin-top: 100px;">
     <div class="content__head">
         <div class="container">
             <div class="row">
@@ -72,36 +45,40 @@
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
                 <div class="row">
-                    @for(item of trending_movies.results; track item.id ){
-                    <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                        <media-card [media]="item" [isCarouselCard]="false"></media-card>
-                    </div>
-                    } @empty {
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card__content">
-                                <h3 class="card__title">No Media</h3>
+                    @if(trending_movies.results){
+                        @for(item of trending_movies.results; track item.id ){
+                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
+                            <media-card [media]="item" [isCarouselCard]="false"></media-card>
+                        </div>
+                        } @empty {
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card__content">
+                                    <h3 class="card__title">No Media</h3>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        }
                     }
                 </div>
             </div>
 
             <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
                 <div class="row">
-                    @for(item of trending_series.results; track item.id ){
-                    <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                        <media-card [media]="item" [isCarouselCard]="false"></media-card>
-                    </div>
-                    } @empty {
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card__content">
-                                <h3 class="card__title">No Media</h3>
-                            </div>
+                    @if(trending_series.results){
+                        @for(item of trending_series.results; track item.id ){
+                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
+                            <media-card [media]="item" [isCarouselCard]="false"></media-card>
                         </div>
-                    </div> 
+                        } @empty {
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card__content">
+                                    <h3 class="card__title">No Media</h3>
+                                </div>
+                            </div>
+                        </div> 
+                        }
                     }
                 </div>
             </div>

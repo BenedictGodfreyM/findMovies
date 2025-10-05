@@ -1,11 +1,13 @@
-<div class="row" *ngIf="loadingImages">
-    @for(i of [].constructor(3); track i.id ){
+@if(loadingImages){
+<div class="row">
+    @for(i of [].constructor(3); track i){
     <div class="col-12 col-sm-6 col-xl-4">
         <app-skeleton-loader class="circle" width="40px" height="100px"></app-skeleton-loader>
     </div>
     }
 </div>
-<div class="row" *ngIf="!loadingImages">
+}@else{
+<div class="row">
     <!-- gallery item -->
      @for(item of images.posters; let idx = $index; track item ){
     <figure class="col-12 col-sm-6 col-xl-4" itemprop="associatedMedia" itemscope>
@@ -19,3 +21,4 @@
     }
     <!-- end gallery item -->
 </div>
+}

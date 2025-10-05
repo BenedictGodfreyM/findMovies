@@ -1,5 +1,6 @@
-<ul class="reviews__list" *ngIf="loadingReviews">
-    @for(i of [].constructor(3); track i.id ){
+@if(loadingReviews){
+<ul class="reviews__list">
+    @for(i of [].constructor(3); track i){
     <li class="reviews__item">
         <div class="reviews__autor">
             <span class="reviews__name">
@@ -20,7 +21,8 @@
     </li>
     }
 </ul>
-<ul class="reviews__list" *ngIf="!loadingReviews">
+}@else{
+<ul class="reviews__list">
     @for(item of reviews.results; track item.id ){
     <li class="reviews__item">
         <div class="reviews__autor">
@@ -38,3 +40,4 @@
     </li>
     }
 </ul>
+}

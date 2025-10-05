@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { TMDBTVShowSeason, Torrent, Torrents } from '../../../models';
-import { FormatDatePipe } from '../../../pipes';
-import { finalize, Subject, takeUntil } from 'rxjs';
+import { TMDBTVShowEpisode, TMDBTVShowSeason, Torrent, Torrents } from '@/app/interfaces';
+import { FormatDatePipe } from '@/app/pipes';
+import { finalize, map, Subject, takeUntil } from 'rxjs';
 import { MatBottomSheet, MatBottomSheetModule, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { TorrentService } from '../../../services';
-import { TorrentsComponent } from '../../../components';
+import { TmdbService, TorrentService } from '@/app/services';
+import { TorrentsComponent } from '@/app/components';
 
 @Component({
   selector: 'tvshow-season',
@@ -14,16 +14,33 @@ import { TorrentsComponent } from '../../../components';
   templateUrl: './tvshow-season.html',
   styleUrl: './tvshow-season.css'
 })
-export class TvshowSeason implements OnDestroy {
+export class TvshowSeason implements OnInit, OnDestroy {
   private _destroyed$: Subject<boolean> = new Subject();
+  public fetchingEpisodes: boolean = false;
+  public episodes: Array<TMDBTVShowEpisode> = new Array();
   public fetchingTorrents: boolean = false;
   public loadingTorrents: boolean = false;
   public torrents: Array<Torrent> = new Array();
   public torrentsDisabled: boolean = true;
 
+  @Input() tv_show_id!: number;
   @Input() season!: TMDBTVShowSeason;
 
-  constructor(private torrentClient: TorrentService,private snackBar: MatSnackBar,private bottomSheet: MatBottomSheet){}
+  constructor(private TMDBService: TmdbService,private torrentClient: TorrentService,private snackBar: MatSnackBar,private bottomSheet: MatBottomSheet){}
+
+  ngOnInit(): void {
+    if(this.season.episode_count > 0){
+      this.fetchingEpisodes = true;
+      this.TMDBService.tv_show_season(this.tv_show_id,this.season.season_number)
+      .pipe(
+        map((season) => (season.episodes as Array<TMDBTVShowEpisode>)),
+        takeUntil(this._destroyed$), finalize(() => { this.fetchingEpisodes = false; })
+      )
+      .subscribe({
+        next: (episodes) => this.episodes = episodes
+      });
+    }
+  }
 
   public getTorrents(title: string, type: string, season_number: number, episode_number: number = 0): void{
     this.torrents.splice(0, this.torrents.length);
