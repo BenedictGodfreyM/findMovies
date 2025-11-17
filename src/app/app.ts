@@ -1,17 +1,16 @@
 import { Component, computed, OnDestroy, OnInit } from '@angular/core';
-import { NavigationStart, Router, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { filter, map, Subject, takeUntil } from 'rxjs';
+import { Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterEvent, RouterModule } from '@angular/router';
+import { filter, Subject, takeUntil } from 'rxjs';
 import { NavigationService } from '@/app/services';
 import { FooterComponent, HeaderComponent } from '@/app/components';
 import { ClipboardService, IClipboardResponse, ClipboardModule } from 'ngx-clipboard';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { OverlayModule } from '@angular/cdk/overlay';
+import { ScrollGovernor } from './utils';
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule,RouterModule,OverlayModule,HeaderComponent,FooterComponent,MatSnackBarModule,MatProgressBarModule,ClipboardModule],
+  imports: [RouterModule,HeaderComponent,FooterComponent,MatSnackBarModule,MatProgressBarModule,ClipboardModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -28,10 +27,18 @@ export class App implements OnInit, OnDestroy{
 
   private subscribeNavigationEvents(): void{
     this.router.events.pipe(
-      takeUntil(this._destroyed$),
-      filter(event => event instanceof NavigationStart),
-      map(event => this.navigation.setReturnURL(event.url))
-    ).subscribe();
+      filter((event: Event): event is NavigationStart | NavigationEnd | NavigationCancel | NavigationError =>
+        event instanceof NavigationStart || event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError
+      ),
+      takeUntil(this._destroyed$)
+    ).subscribe((event: RouterEvent) => {
+      if(event instanceof NavigationStart){
+        this.navigation.setReturnURL(event.url);
+      }
+      if(event instanceof NavigationEnd){
+        ScrollGovernor.scrollToTop();
+      }
+    });
   }
 
   private subscribeClipboardEvents(): void{
